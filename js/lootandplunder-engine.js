@@ -2,11 +2,80 @@
  * 
  */
 var animations = {
-		player: {
-			// higher is slower
-			speed: 5,
-			refreshRate: 8,
-			file: "player",
+	player: {
+		// higher is slower
+		speed: 5,
+		refreshRate: 8,
+		file: "player",
+		left:{
+			idle: 
+			[
+				{
+					x:1638,
+					y:678,
+					width:92,
+					height:104
+				},
+				{
+					x: 1836,
+					y: 678,
+					width: 92,
+					height: 104
+				}
+			],
+			moving: [
+				{
+					x: 1242,
+					y: 58,
+					width: 92,
+					height: 97
+				}, 
+				{
+					x: 1435,
+					y: 56,
+					width: 93,
+					height: 99
+				}, 
+				{
+					x: 1636,
+					y: 54,
+					width: 86,
+					height: 100
+				},
+				{
+					x: 2031,
+					y:51,
+					width:83,
+					height:103
+
+				},
+				{
+					x: 2228,
+					y:50,
+					width:76,
+					height:105
+				},
+				{
+					x: 1240,
+					y:206,
+					width: 78,
+					height: 104
+				},
+				{
+					x: 1636,
+					y:209,
+					width: 86,
+					height: 102
+				},
+				{
+					x: 1836,
+					y:211,
+					width: 88,
+					height: 99
+				}
+			]
+		}
+		right:{
 			idle: 
 			[
 				{
@@ -22,7 +91,7 @@ var animations = {
 					height: 104
 				}
 			],
-			moving-right: [
+			moving:[
 				{
 					x: 54,
 					y: 58,
@@ -72,76 +141,27 @@ var animations = {
 					width: 88,
 					height: 99
 				}
-			],
-			moving-left: [
-				{
-					x: 54 + 1188,
-					y: 58,
-					width: 92,
-					height: 97
-				}, 
-				{
-					x: 247+ 1188,
-					y: 56,
-					width: 93,
-					height: 99
-				}, 
-				{
-					x: 448+1188 ,
-					y: 54,
-					width: 86,
-					height: 100
-				},
-				{
-					x:843+1188 ,
-					y:51,
-					width:83,
-					height:103
-
-				},
-				{
-					x:1040+1188 ,
-					y:50,
-					width:76,
-					height:105
-				},
-				{
-					x: 52+1188 ,
-					y:206,
-					width: 78,
-					height: 104
-				},
-				{
-					x: 448+1188 ,
-					y:209,
-					width: 86,
-					height: 102
-				},
-				{
-					x: 648+1188 ,
-					y:211,
-					width: 88,
-					height: 99
-				}
 			]
 
-		},
-		cyclops: {
-			speed: 5,
-			refreshRate: 28,
-			file: "cyclops",
-			idle: [{
-				x: 3,
-				y: 16,
-				width: 56,
-				height: 80
-			},{
-				x: 64,
-				y: 15,
-				width: 56,
-				height: 80
-			}]
 		}
+
+	},
+	cyclops: {
+		speed: 5,
+		refreshRate: 28,
+		file: "cyclops",
+		idle: [{
+			x: 3,
+			y: 16,
+			width: 56,
+			height: 80
+		},{
+			x: 64,
+			y: 15,
+			width: 56,
+			height: 80
+		}]
+	}
 }
 
 var blocks = {
@@ -168,7 +188,8 @@ function Character(x, y, animation, state) {
 	var _y = y;
 	var _animation = animation;
 	var _state = state;
-	
+
+	var _direction = "right";
 	var _img = new Image();
 	_img.src = "resource/img/" + _animation.file + ".png";
 	
@@ -177,12 +198,28 @@ function Character(x, y, animation, state) {
 	this.move = function(dx, dy) {
 		_x += dx;
 		_y += dy;
+		if(_direction == "left"){
+			this.setState(_animation.left.moving)
+		}else if(_direction == "right"{
+			this.setState(_animation.right.moving);
+		}
 	}
 	
 	this.setState = function(state) {
 		_state = state;
 	}
-	
+	this.setDirection = function(direction){
+		_direction = direction;
+	}
+
+	this.setIdle(){	
+		if(_direction == "left"){
+			this.setState(_animation.left.idle)
+		}else if(_direction == "right"{
+			this.setState(_animation.right.idle);
+		}
+	}
+
 	this.getAnimation = function() {
 		return _animation;
 	}
@@ -294,13 +331,13 @@ $(function() {
 			moveX -= player.getSpeed();
 		}
 		if(moveX === 0) {
-			player.setState(player.getAnimation().idle);
+			player.setIdle();
 		} else {
 			player.move(moveX, 0);
 			if(moveX < 0){
-				player.setState(player.getAnimation().moving-left);
+				player.setDirection("Left");
 			}else{
-				player.setState(player.getAnimation().moving-right);
+				player.setDirection("Right");
 			}
 		}
 		
