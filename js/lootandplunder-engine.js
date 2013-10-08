@@ -2,17 +2,6 @@
  * 
  */
 var animations = {
-		background: {
-			speed: 0,
-			refreshRate: 1,
-			file: "background",
-			idle: [{
-				x: 0,
-				y: 0,
-				width: 800,
-				height: 600
-			}]
-		},
 		player: {
 			// higher is slower
 			speed: 5,
@@ -68,6 +57,24 @@ var animations = {
 		}
 }
 
+var blocks = {
+		grass_left: {
+			x: 172,
+			y: 36
+		},
+		grass_mid: {
+			x: 206,
+			y: 36
+		},
+		grass_right: {
+			x: 342,
+			y: 36
+		}
+	}
+
+var block_sprites = new Image();
+block_sprites.src = "resource/img/blocks.png";
+
 function Character(x, y, animation, state) {
 	var _currentRefresh = 0; // higher is les
 	var _x = x;
@@ -122,13 +129,31 @@ function Character(x, y, animation, state) {
 		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
 	}
 }
+
+function Block(x, y, img_coords) {
+	var _x = x;
+	var _y = y;
+	var _img_x = img_coords.x;
+	var _img_y = img_coords.y;
+	var _width = 32;
+	var _height = 32;
+	
+	this.update = function() {
+		//Check for colission here or what
+	}
+	
+	this.draw = function(dx) {
+		dx.drawImage(block_sprites, _img_x, _img_y, _width, _height, _x, _y, _width, _height);
+	}
+}
+
 var keys = []
 var player = new Character(20, 20, animations.player, animations.player.moving);
 var player2 = new Character(50, 50, animations.player, animations.player.idle);
 var layer = {
-		background: [new Character(0, 0, animations.background, animations.background.idle)],
+		background: [new Block(10, 10, blocks.grass_left), new Block(42, 10, blocks.grass_mid)],
 		loot: [],
-		characters: [new Character(200, 200, animations.cyclops, animations.cyclops.idle), player]
+		characters: [ player]
 }
 
 
@@ -200,6 +225,7 @@ $(function() {
 	}
 	
 	function render() {
+		context.clearRect(0, 0, c.width, c.height);
 		render_layer(layer.background);
 		render_layer(layer.loot);
 		render_layer(layer.characters);
