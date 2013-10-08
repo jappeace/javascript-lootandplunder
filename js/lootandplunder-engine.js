@@ -18,22 +18,36 @@ var animations = {
 			speed: 5,
 			refreshRate: 10,
 			file: "player",
-			idle: [{
-				x: 5,
-				y: 71,
-				width: 23,
-				height: 33
-			}],
+			idle: 
+			[
+				{
+					x:450,
+					y:678,
+					width:92,
+					height:102
+				},
+				{
+					x: 648,
+					y: 678,
+					width: 92,
+					height: 104
+				}
+			],
 			moving: [{
-				x: 5,
-				y: 71,
-				width: 23,
-				height: 33
+				x: 54,
+				y: 58,
+				width: 92,
+				height: 97
 			}, {
-				x: 35,
-				y: 71,
-				width: 24,
-				height: 32
+				x: 247,
+				y: 56,
+				width: 93,
+				height: 99
+			}, {
+				x: 448,
+				y: 54,
+				width: 86,
+				height: 100
 			}]
 		}
 }
