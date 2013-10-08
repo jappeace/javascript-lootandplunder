@@ -2,6 +2,17 @@
  * 
  */
 var animations = {
+		background: {
+			speed: 0,
+			refreshRate: 1,
+			file: "background",
+			idle: [{
+				x: 0,
+				y: 0,
+				width: 800,
+				height: 600
+			}]
+		},
 		player: {
 			// higher is slower
 			speed: 5,
@@ -44,6 +55,18 @@ function Character(x, y, animation, state) {
 		_y += dy;
 	}
 	
+	this.setState = function(state) {
+		_state = state;
+	}
+	
+	this.getAnimation = function() {
+		return _animation;
+	}
+	
+	this.getState = function() {
+		return _state;
+	}
+	
 	this.getSpeed = function() {
 		return _animation.speed;
 	}
@@ -61,7 +84,11 @@ function Character(x, y, animation, state) {
 	}
 	
 	this.draw = function(dx) {
+		if(_current_frame >= _state.length) {
+			_current_frame = 0;
+		}
 		var frame = _state[_current_frame];
+		
 		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
 	}
 }
@@ -69,7 +96,7 @@ var keys = []
 var player = new Character(20, 20, animations.player, animations.player.moving);
 var player2 = new Character(50, 50, animations.player, animations.player.idle);
 var layer = {
-		background: [],
+		background: [new Character(0, 0, animations.background, animations.background.idle)],
 		loot: [],
 		characters: [player]
 }
@@ -97,7 +124,6 @@ $(function() {
 	
 	$(document).keydown(function(key) {
 		keys[key.keyCode] = true;
-		console.log(key.keyCode);
 	});
 	
 	$(document).keyup(function(key) {
@@ -125,8 +151,12 @@ $(function() {
 		if(keys[37]) {
 			moveX -= player.getSpeed();
 		}
-		
-		player.move(moveX, 0);
+		if(moveX === 0) {
+			player.setState(player.getAnimation().idle);
+		} else {
+			player.move(moveX, 0);
+			player.setState(player.getAnimation().moving);
+		}
 		
 		update_layer(layer.background);
 		update_layer(layer.loot);
