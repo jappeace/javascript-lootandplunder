@@ -3,6 +3,8 @@
  */
 var animations = {
 		player: {
+			// higher is slower
+			refreshRate: 10,
 			file: "player",
 			idle: [{
 				x: 5,
@@ -25,21 +27,26 @@ var animations = {
 }
 
 function Character(x, y, animation, state) {
+	var _currentRefresh = 0; // higher is les
 	var _x = x;
 	var _y = y;
 	var _animation = animation;
 	var _state = state;
 	
 	var _img = new Image();
-	_img.src = "resource/img/" + animation.file + ".png";
+	_img.src = "resource/img/" + _animation.file + ".png";
 	
 	var _current_frame = 0;
 
 	this.update = function() {
-		if(_current_frame >= _state.length - 1) {
-			_current_frame = 0;
-		} else {
-			_current_frame++;
+		_currentRefresh++;	
+		// limit refreshing
+		if((_currentRefresh % _animation.refreshRate) === 0){
+			if(_current_frame >= _state.length - 1) {
+				_current_frame = 0;
+			} else {
+				_current_frame++;
+			}
 		}
 	}
 	
@@ -64,7 +71,7 @@ $(function() {
 	var c=document.getElementById("game");
 	var context=c.getContext("2d");
 	window.requestAnimFrame = (function(){ //source: http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
-		  return  window.requestAnimationFrame       ||
+			return  window.requestAnimationFrame       ||
 		          window.webkitRequestAnimationFrame ||
 		          window.mozRequestAnimationFrame    ||
 		          function( callback ){
