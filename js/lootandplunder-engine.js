@@ -214,7 +214,7 @@ function Character(x, y, animation, state) {
 		var frame = _state[_current_frame];
 		for(var i = 0; i < layer.background.length; i++) {
 			var block = layer.background[i];
-			if(_y + frame.height >= block.getY() && _x >= block.getX() && _x <= block.getX() + 32) {
+			if(_y + frame.height >= block.getY() && _x >= block.getX() - 32 && _x <= block.getX()) {
 				return true;
 			}
 		}
