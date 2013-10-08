@@ -159,7 +159,6 @@ var blocks = {
 		}
 	}
 
-var gravity = -9;
 
 var block_sprites = new Image();
 block_sprites.src = "resource/img/blocks.png";
@@ -215,7 +214,7 @@ function Character(x, y, animation, state) {
 		var frame = _state[_current_frame];
 		for(var i = 0; i < layer.background.length; i++) {
 			var block = layer.background[i];
-			if(_y + frame.height >= block.getY()) {
+			if(_y + frame.height >= block.getY() && _x >= block.getX() && _x <= block.getX() + 32) {
 				return true;
 			}
 		}
@@ -236,7 +235,7 @@ function Character(x, y, animation, state) {
 				_dy = 0;
 			}
 		} else {
-			_dy -= -0.5;
+			_dy -= -0.35;
 		}
 		
 		if(_dy > 5)
@@ -259,9 +258,8 @@ function Character(x, y, animation, state) {
 	}
 	
 	this.draw = function(dx) {
-
 		var frame = _state[_current_frame];
-		
+		dx.fillText(_x + ":" + _y, _x, _y);
 		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
 	}
 }
@@ -286,6 +284,7 @@ function Block(x, y, img_coords) {
 	}
 	
 	this.draw = function(dx) {
+		dx.fillText(_x + ":" + _y, _x, _y);
 		dx.drawImage(block_sprites, _img_x, _img_y, _width, _height, _x, _y, _width, _height);
 	}
 }
@@ -294,7 +293,7 @@ var keys = []
 var player = new Character(40, 400, animations.player, animations.player.moving);
 
 var layer = {
-		background: [],
+		background: [new Block(700, 500, blocks.grass_mid)],
 		loot: [],
 		characters: [ player]
 }
