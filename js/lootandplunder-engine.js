@@ -55,7 +55,7 @@ function Character(x, y, animation, state) {
 		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
 	}
 }
-
+var keys = []
 var player = new Character(20, 20, animations.player, animations.player.moving);
 var layer = {
 		background: [],
@@ -85,6 +85,16 @@ $(function() {
 	  render();
 	})();
 	
+	$(document).keydown(function(key) {
+		keys[key.keyCode] = true;
+		console.log(key.keyCode);
+	});
+	
+	$(document).keyup(function(key) {
+		keys[key.keyCode] = false;
+	});
+	
+	
 	function initialize() {
 		
 	}
@@ -98,6 +108,10 @@ $(function() {
 	}
 	
 	function gamelogic() {
+		//39 = rechts, 37 = links, up=38, down=40, space=32
+		if(keys[39]) { //move right
+			
+		}
 		update_layer(layer.background);
 		update_layer(layer.loot);
 		update_layer(layer.characters);
