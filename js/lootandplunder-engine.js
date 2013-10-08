@@ -13,65 +13,65 @@ var animations = {
 				{
 					x:1638,
 					y:678,
-					width:92,
+					width:96,
 					height:104
 				},
 				{
 					x: 1836,
 					y: 678,
-					width: 92,
+					width: 96,
 					height: 104
 				}
 			],
 			moving: [
 				{
-					x: 1242,
-					y: 58,
-					width: 92,
-					height: 97
-				},
-				{
-					x: 1435,
-					y: 56,
-					width: 93,
-					height: 99
-				},
-				{
-					x: 1636,
-					y: 54,
-					width: 86,
-					height: 100
+					x: 2228,
+					y:50,
+					width:96,
+					height:104
 				},
 				{
 					x: 2031,
 					y:51,
-					width:83,
-					height:103
+					width:96,
+					height:104
 
 				},
 				{
-					x: 2228,
-					y:50,
-					width:76,
-					height:105
+					x: 1636,
+					y: 54,
+					width: 96,
+					height: 104
 				},
 				{
-					x: 1640,
-					y:206,
-					width: 78,
+					x: 1435,
+					y: 56,
+					width: 96,
+					height: 104
+				},
+				{
+					x: 1242,
+					y: 58,
+					width: 96,
+					height: 104
+				},
+				{
+					x: 2236,
+					y:211,
+					width: 96,
 					height: 104
 				},
 				{
 					x: 2036,
 					y:209,
-					width: 86,
-					height: 102
+					width: 96,
+					height: 104
 				},
 				{
-					x: 2236,
-					y:211,
-					width: 88,
-					height: 99
+					x: 1640,
+					y:206,
+					width: 96,
+					height: 104
 				}
 			]
 		},
@@ -82,13 +82,13 @@ var animations = {
 				{
 					x:450,
 					y:678,
-					width:92,
+					width:96,
 					height:104
 				},
 				{
 					x: 648,
 					y: 678,
-					width: 92,
+					width: 96,
 					height: 104
 				}
 			],
@@ -96,51 +96,51 @@ var animations = {
 				{
 					x: 54,
 					y: 58,
-					width: 92,
-					height: 97
+					width: 96,
+					height: 104
 				},
 				{
 					x: 247,
 					y: 56,
-					width: 93,
-					height: 99
+					width: 96,
+					height: 104
 				},
 				{
 					x: 448,
 					y: 54,
-					width: 86,
-					height: 100
+					width: 96,
+					height: 104
 				},
 				{
 					x:843,
 					y:51,
-					width:83,
-					height:103
+					width:96,
+					height:104
 
 				},
 				{
 					x:1040,
 					y:50,
-					width:76,
-					height:105
+					width:96,
+					height:104
 				},
 				{
 					x: 52,
 					y:206,
-					width: 78,
+					width: 96,
 					height: 104
 				},
 				{
 					x: 448,
 					y:209,
-					width: 86,
-					height: 102
+					width: 96,
+					height: 104
 				},
 				{
 					x: 648,
 					y:211,
-					width: 88,
-					height: 99
+					width: 96,
+					height: 104
 				}
 			]
 
