@@ -55,6 +55,18 @@ function Character(x, y, animation, state) {
 		_y += dy;
 	}
 	
+	this.setState = function(state) {
+		_state = state;
+	}
+	
+	this.getAnimation = function() {
+		return _animation;
+	}
+	
+	this.getState = function() {
+		return _state;
+	}
+	
 	this.getSpeed = function() {
 		return _animation.speed;
 	}
@@ -72,7 +84,11 @@ function Character(x, y, animation, state) {
 	}
 	
 	this.draw = function(dx) {
+		if(_current_frame >= _state.length) {
+			_current_frame = 0;
+		}
 		var frame = _state[_current_frame];
+		
 		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
 	}
 }
@@ -135,8 +151,12 @@ $(function() {
 		if(keys[37]) {
 			moveX -= player.getSpeed();
 		}
-		
-		player.move(moveX, 0);
+		if(moveX === 0) {
+			player.setState(player.getAnimation().idle);
+		} else {
+			player.move(moveX, 0);
+			player.setState(player.getAnimation().moving);
+		}
 		
 		update_layer(layer.background);
 		update_layer(layer.loot);
