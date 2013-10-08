@@ -22,7 +22,7 @@ var animations = {
 					height: 104
 				}
 			],
-			moving: [
+			moving-right: [
 				{
 					x: 54,
 					y: 58,
@@ -72,9 +72,59 @@ var animations = {
 					width: 88,
 					height: 99
 				}
+			],
+			moving-left: [
+				{
+					x: 54 + 1188,
+					y: 58,
+					width: 92,
+					height: 97
+				}, 
+				{
+					x: 247+ 1188,
+					y: 56,
+					width: 93,
+					height: 99
+				}, 
+				{
+					x: 448+1188 ,
+					y: 54,
+					width: 86,
+					height: 100
+				},
+				{
+					x:843+1188 ,
+					y:51,
+					width:83,
+					height:103
 
-
+				},
+				{
+					x:1040+1188 ,
+					y:50,
+					width:76,
+					height:105
+				},
+				{
+					x: 52+1188 ,
+					y:206,
+					width: 78,
+					height: 104
+				},
+				{
+					x: 448+1188 ,
+					y:209,
+					width: 86,
+					height: 102
+				},
+				{
+					x: 648+1188 ,
+					y:211,
+					width: 88,
+					height: 99
+				}
 			]
+
 		},
 		cyclops: {
 			speed: 5,
@@ -247,7 +297,11 @@ $(function() {
 			player.setState(player.getAnimation().idle);
 		} else {
 			player.move(moveX, 0);
-			player.setState(player.getAnimation().moving);
+			if(moveX < 0){
+				player.setState(player.getAnimation().moving-left);
+			}else{
+				player.setState(player.getAnimation().moving-right);
+			}
 		}
 		
 		update_layer(layer.background);
