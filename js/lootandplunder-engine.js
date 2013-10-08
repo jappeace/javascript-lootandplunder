@@ -36,7 +36,7 @@ function Character(x, y, animation, state) {
 	var _current_frame = 0;
 
 	this.update = function() {
-		if(_current_frame >= _state.length) {
+		if(_current_frame >= _state.length - 1) {
 			_current_frame = 0;
 		} else {
 			_current_frame++;
@@ -45,7 +45,6 @@ function Character(x, y, animation, state) {
 	
 	this.draw = function(dx) {
 		var frame = _state[_current_frame];
-		console.log(_current_frame);
 		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
 	}
 }
