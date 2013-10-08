@@ -4,6 +4,7 @@
 var animations = {
 		player: {
 			// higher is slower
+			speed: 5,
 			refreshRate: 10,
 			file: "player",
 			idle: [{
@@ -38,6 +39,15 @@ function Character(x, y, animation, state) {
 	
 	var _current_frame = 0;
 
+	this.move = function(dx, dy) {
+		_x += dx;
+		_y += dy;
+	}
+	
+	this.getSpeed = function() {
+		return _animation.speed;
+	}
+	
 	this.update = function() {
 		_currentRefresh++;	
 		// limit refreshing
@@ -57,6 +67,7 @@ function Character(x, y, animation, state) {
 }
 var keys = []
 var player = new Character(20, 20, animations.player, animations.player.moving);
+var player2 = new Character(50, 50, animations.player, animations.player.idle);
 var layer = {
 		background: [],
 		loot: [],
@@ -64,7 +75,6 @@ var layer = {
 }
 
 
-console.log(animations.player.idle[0]);
 
 $(function() {
 	initialize();
@@ -96,7 +106,6 @@ $(function() {
 	
 	
 	function initialize() {
-		
 	}
 	
 
@@ -109,9 +118,16 @@ $(function() {
 	
 	function gamelogic() {
 		//39 = rechts, 37 = links, up=38, down=40, space=32
+		var moveX = 0;
 		if(keys[39]) { //move right
-			
+			moveX += player.getSpeed();
 		}
+		if(keys[37]) {
+			moveX -= player.getSpeed();
+		}
+		
+		player.move(moveX, 0);
+		
 		update_layer(layer.background);
 		update_layer(layer.loot);
 		update_layer(layer.characters);
