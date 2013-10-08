@@ -145,7 +145,6 @@ var animations = {
 			]
 
 		}
-
 	},
 	cyclops: {
 		speed: 5,
@@ -187,6 +186,12 @@ function Character(x, y, animation, state) {
 	var _currentRefresh = 0; // higher is les
 	var _x = x;
 	var _y = y;
+	
+	var _dx = 0;
+	var _dy = 0;
+	
+	var _jump = false;
+	
 	var _animation = animation;
 	var _state = state;
 
@@ -221,6 +226,15 @@ function Character(x, y, animation, state) {
 		}
 	};
 
+	
+	this.isJumping = function() {
+		return _jump;
+	};
+	
+	this.jump = function() {
+		_jump = true;
+	};
+	
 	this.getAnimation = function() {
 		return _animation;
 	};
@@ -233,8 +247,44 @@ function Character(x, y, animation, state) {
 		return _animation.speed;
 	};
 	
+	this.collideWithGround = function() {
+		var frame = _state[_current_frame];
+		for(var i = 0; i < layer.background.length; i++) {
+			var block = layer.background[i];
+			if(_y + frame.height >= block.getY() && _x >= block.getX() - 32 && _x <= block.getX()) {
+				return true;
+			}
+		}
+		return false;
+	};
+	
 	this.update = function() {
-		_currentRefresh++;
+		if(_current_frame >= _state.length - 1) {
+			_current_frame = 0;
+		}
+		
+		_currentRefresh++;	
+		
+		if(this.collideWithGround()) { 
+			if(_jump) {
+				_dy = -10;
+			} else {
+				_dy = 0;
+			}
+		} else {
+			_dy -= -0.35;
+		}
+		
+		if(_dy > 5){
+			_dy = 5;
+		}
+		
+		this.move(_dx, _dy);
+
+		if(_jump) {
+			_jump = false;
+		}
+		
 		// limit refreshing
 		if((_currentRefresh % _animation.refreshRate) === 0){
 			if(_current_frame >= _state.length - 1) {
@@ -250,7 +300,7 @@ function Character(x, y, animation, state) {
 			_current_frame = 0;
 		}
 		var frame = _state[_current_frame];
-		
+		dx.fillText(_x + ":" + _y, _x, _y);
 		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
 	};
 }
@@ -267,15 +317,23 @@ function Block(x, y, img_coords) {
 		//Check for colission here or what
 	};
 	
+	this.getX = function() {
+		return _x;
+	};
+	this.getY = function() {
+		return _y;
+	};
+	
 	this.draw = function(dx) {
 		dx.drawImage(block_sprites, _img_x, _img_y, _width, _height, _x, _y, _width, _height);
 	};
 }
 
 var keys = [];
-var player = new Character(20, 20, animations.player, animations.player.moving);
+var player = new Character(40, 400, animations.player, animations.player.moving);
+
 var layer = {
-		background: [new Block(10, 10, blocks.grass_left), new Block(42, 10, blocks.grass_mid)],
+		background: [new Block(700, 500, blocks.grass_mid)],
 		loot: [],
 		characters: [ player]
 	};
@@ -310,7 +368,16 @@ $(function() {
 	});
 	
 	
+	function generate_ground() {
+		layer.background.push(new Block(0, 600-32, blocks.grass_left));
+		for(var i = 32; i < (800 -32); i += 32) {
+			layer.background.push(new Block(i, 600-32, blocks.grass_mid));
+		}
+		layer.background.push(new Block(800-32, 600-32, blocks.grass_right));
+	}
+	
 	function initialize() {
+		generate_ground();
 	}
 	
 
@@ -330,6 +397,12 @@ $(function() {
 		if(keys[37]) {
 			moveX -= player.getSpeed();
 		}
+		if(keys[32]) {
+			if(!player.isJumping()) {
+				player.jump();
+			}
+		}
+		
 		if(moveX === 0) {
 			player.setIdle();
 		} else {
@@ -351,7 +424,6 @@ $(function() {
 			layer[i].draw(context);
 		}
 	}
-	
 	function render() {
 		context.clearRect(0, 0, c.width, c.height);
 		render_layer(layer.background);
