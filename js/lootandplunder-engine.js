@@ -2,6 +2,17 @@
  * 
  */
 var animations = {
+		background: {
+			speed: 0,
+			refreshRate: 1,
+			file: "background",
+			idle: [{
+				x: 0,
+				y: 0,
+				width: 800,
+				height: 600
+			}]
+		},
 		player: {
 			// higher is slower
 			speed: 5,
@@ -69,7 +80,7 @@ var keys = []
 var player = new Character(20, 20, animations.player, animations.player.moving);
 var player2 = new Character(50, 50, animations.player, animations.player.idle);
 var layer = {
-		background: [],
+		background: [new Character(0, 0, animations.background, animations.background.idle)],
 		loot: [],
 		characters: [player]
 }
@@ -97,7 +108,6 @@ $(function() {
 	
 	$(document).keydown(function(key) {
 		keys[key.keyCode] = true;
-		console.log(key.keyCode);
 	});
 	
 	$(document).keyup(function(key) {
