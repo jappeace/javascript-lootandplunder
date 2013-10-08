@@ -16,7 +16,7 @@ var animations = {
 		player: {
 			// higher is slower
 			speed: 5,
-			refreshRate: 10,
+			refreshRate: 8,
 			file: "player",
 			idle: 
 			[
@@ -33,22 +33,59 @@ var animations = {
 					height: 104
 				}
 			],
-			moving: [{
-				x: 54,
-				y: 58,
-				width: 92,
-				height: 97
-			}, {
-				x: 247,
-				y: 56,
-				width: 93,
-				height: 99
-			}, {
-				x: 448,
-				y: 54,
-				width: 86,
-				height: 100
-			}]
+			moving: [
+				{
+					x: 54,
+					y: 58,
+					width: 92,
+					height: 97
+				}, 
+				{
+					x: 247,
+					y: 56,
+					width: 93,
+					height: 99
+				}, 
+				{
+					x: 448,
+					y: 54,
+					width: 86,
+					height: 100
+				},
+				{
+					x:843,
+					y:51,
+					width:83,
+					height:103
+
+				},
+				{
+					x:1040,
+					y:50,
+					width:76,
+					height:105
+				},
+				{
+					x: 52,
+					y:206,
+					width: 78,
+					height: 104
+				},
+				{
+					x: 448,
+					y:209,
+					width: 86,
+					height: 102
+				},
+				{
+					x: 648,
+					y:211,
+					width: 88,
+					height: 99
+				}
+
+
+			]
 		},
 		cyclops: {
 			speed: 5,
