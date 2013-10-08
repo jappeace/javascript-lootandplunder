@@ -2,7 +2,11 @@
 .buildpath
 .project
 .settings/*
+#photo editor
 *.psd
 *.xcf
+#linux crap
 *.swp
 .directory
+#merge crap
+*.orig

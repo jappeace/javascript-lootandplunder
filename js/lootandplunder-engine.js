@@ -56,19 +56,19 @@ var animations = {
 					height:105
 				},
 				{
-					x: 1240,
+					x: 1640,
 					y:206,
 					width: 78,
 					height: 104
 				},
 				{
-					x: 1636,
+					x: 2036,
 					y:209,
 					width: 86,
 					height: 102
 				},
 				{
-					x: 1836,
+					x: 2236,
 					y:211,
 					width: 88,
 					height: 99
