@@ -1,6 +1,3 @@
-/**
- * 
- */
 var animations = {
 	player: {
 		// higher is slower
@@ -204,11 +201,6 @@ function Character(x, y, animation, state) {
 	this.move = function(dx, dy) {
 		_x += dx;
 		_y += dy;
-		if(_direction == "left"){
-			this.setState(_animation.left.moving);
-		}else if(_direction == "right"){
-			this.setState(_animation.right.moving);
-		}
 	};
 	
 	this.setState = function(state) {
@@ -217,8 +209,14 @@ function Character(x, y, animation, state) {
 	this.setDirection = function(direction){
 		_direction = direction;
 	};
-
-	this.setIdle = function(){
+	this.animateMove = function(){
+		if(_direction == "left"){
+			this.setState(_animation.left.moving);
+		}else if(_direction == "right"){
+			this.setState(_animation.right.moving);
+		}
+	};
+	this.animateIdle = function(){
 		if(_direction == "left"){
 			this.setState(_animation.left.idle);
 		}else if(_direction == "right"){
@@ -263,9 +261,9 @@ function Character(x, y, animation, state) {
 			_current_frame = 0;
 		}
 		
-		_currentRefresh++;	
+		_currentRefresh++;
 		
-		if(this.collideWithGround()) { 
+		if(this.collideWithGround()) {
 			if(_jump) {
 				_dy = -10;
 			} else {
@@ -404,8 +402,9 @@ $(function() {
 		}
 		
 		if(moveX === 0) {
-			player.setIdle();
+			player.animateIdle();
 		} else {
+			player.animateMove();
 			player.move(moveX, 0);
 			if(moveX < 0){
 				player.setDirection("left");
