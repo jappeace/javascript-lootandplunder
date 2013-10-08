@@ -24,7 +24,7 @@ var animations = {
 					x:450,
 					y:678,
 					width:92,
-					height:102
+					height:104
 				},
 				{
 					x: 648,
@@ -48,6 +48,22 @@ var animations = {
 				y: 54,
 				width: 86,
 				height: 100
+			}]
+		},
+		cyclops: {
+			speed: 5,
+			refreshRate: 28,
+			file: "cyclops",
+			idle: [{
+				x: 3,
+				y: 16,
+				width: 56,
+				height: 80
+			},{
+				x: 64,
+				y: 15,
+				width: 56,
+				height: 80
 			}]
 		}
 }
@@ -112,7 +128,7 @@ var player2 = new Character(50, 50, animations.player, animations.player.idle);
 var layer = {
 		background: [new Character(0, 0, animations.background, animations.background.idle)],
 		loot: [],
-		characters: [player]
+		characters: [new Character(200, 200, animations.cyclops, animations.cyclops.idle), player]
 }
 
 
