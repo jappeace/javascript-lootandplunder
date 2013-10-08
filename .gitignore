@@ -2,6 +2,7 @@
 .buildpath
 .project
 .settings/*
+*.psd
 *.xcf
 *.swp
 .directory
