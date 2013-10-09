@@ -2,19 +2,19 @@ var animations = {
 	player: {
 		// higher is slower
 		speed: 5,
-		refreshRate: 8,
+		refreshRate: 3,
 		file: "player",
 		left:{
 			idle:
 			[
 				{
-					x:1638,
+					x:1636,
 					y:678,
 					width:96,
 					height:104
 				},
 				{
-					x: 1836,
+					x: 1834,
 					y: 678,
 					width: 96,
 					height: 104
@@ -25,32 +25,32 @@ var animations = {
 					x: 2228,
 					y:50,
 					width:96,
-					height:104
+					height:105
 				},
 				{
 					x: 2031,
 					y:51,
 					width:96,
-					height:104
+					height:103
 
 				},
 				{
 					x: 1636,
 					y: 54,
 					width: 96,
-					height: 104
+					height: 100
 				},
 				{
 					x: 1435,
 					y: 56,
 					width: 96,
-					height: 104
+					height: 99
 				},
 				{
 					x: 1242,
 					y: 58,
 					width: 96,
-					height: 104
+					height: 97
 				},
 				{
 					x: 2236,
@@ -62,13 +62,13 @@ var animations = {
 					x: 2036,
 					y:209,
 					width: 96,
-					height: 104
+					height: 102
 				},
 				{
 					x: 1640,
 					y:206,
 					width: 96,
-					height: 104
+					height: 99
 				}
 			]
 		},
@@ -94,32 +94,32 @@ var animations = {
 					x: 54,
 					y: 58,
 					width: 96,
-					height: 104
+					height: 105
 				},
 				{
 					x: 247,
 					y: 56,
 					width: 96,
-					height: 104
+					height: 103
 				},
 				{
 					x: 448,
 					y: 54,
 					width: 96,
-					height: 104
+					height: 100
 				},
 				{
 					x:843,
 					y:51,
 					width:96,
-					height:104
+					height:99
 
 				},
 				{
 					x:1040,
 					y:50,
 					width:96,
-					height:104
+					height:97
 				},
 				{
 					x: 52,
@@ -131,13 +131,13 @@ var animations = {
 					x: 448,
 					y:209,
 					width: 96,
-					height: 104
+					height: 102
 				},
 				{
 					x: 648,
 					y:211,
 					width: 96,
-					height: 104
+					height: 99
 				}
 			]
 
