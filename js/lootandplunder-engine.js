@@ -1,181 +1,3 @@
-var animations = {
-	player: {
-		// higher is slower
-		speed: 5,
-		refreshRate: 3,
-		file: "player",
-		left:{
-			idle:
-			[
-				{
-					x:1636,
-					y:678,
-					width:96,
-					height:104
-				},
-				{
-					x: 1834,
-					y: 678,
-					width: 96,
-					height: 104
-				}
-			],
-			moving: [
-				{
-					x: 2228,
-					y:50,
-					width:96,
-					height:105
-				},
-				{
-					x: 2031,
-					y:51,
-					width:96,
-					height:103
-
-				},
-				{
-					x: 1636,
-					y: 54,
-					width: 96,
-					height: 100
-				},
-				{
-					x: 1435,
-					y: 56,
-					width: 96,
-					height: 99
-				},
-				{
-					x: 1242,
-					y: 58,
-					width: 96,
-					height: 97
-				},
-				{
-					x: 2236,
-					y:211,
-					width: 96,
-					height: 104
-				},
-				{
-					x: 2036,
-					y:209,
-					width: 96,
-					height: 102
-				},
-				{
-					x: 1640,
-					y:206,
-					width: 96,
-					height: 99
-				}
-			]
-		},
-		right:
-		{
-			idle:
-			[
-				{
-					x:450,
-					y:678,
-					width:96,
-					height:104
-				},
-				{
-					x: 648,
-					y: 678,
-					width: 96,
-					height: 104
-				}
-			],
-			moving:[
-				{
-					x: 54,
-					y: 58,
-					width: 96,
-					height: 105
-				},
-				{
-					x: 247,
-					y: 56,
-					width: 96,
-					height: 103
-				},
-				{
-					x: 448,
-					y: 54,
-					width: 96,
-					height: 100
-				},
-				{
-					x:843,
-					y:51,
-					width:96,
-					height:99
-
-				},
-				{
-					x:1040,
-					y:50,
-					width:96,
-					height:97
-				},
-				{
-					x: 52,
-					y:206,
-					width: 96,
-					height: 104
-				},
-				{
-					x: 448,
-					y:209,
-					width: 96,
-					height: 102
-				},
-				{
-					x: 648,
-					y:211,
-					width: 96,
-					height: 99
-				}
-			]
-
-		}
-	},
-	cyclops: {
-		speed: 5,
-		refreshRate: 28,
-		file: "cyclops",
-		idle: [{
-			x: 3,
-			y: 16,
-			width: 56,
-			height: 80
-		},{
-			x: 64,
-			y: 15,
-			width: 56,
-			height: 80
-		}]
-	}
-};
-
-var blocks = {
-		grass_left: {
-			x: 172,
-			y: 36
-		},
-		grass_mid: {
-			x: 206,
-			y: 36
-		},
-		grass_right: {
-			x: 342,
-			y: 36
-		}
-	};
-
 var block_sprites = new Image();
 block_sprites.src = "resource/img/blocks.png";
 
@@ -223,7 +45,16 @@ function Character(x, y, animation, state) {
 			this.setState(_animation.right.idle);
 		}
 	};
-
+	this.animateAttack = function(){
+		if(_direction == "left"){
+			this.setState(_animation.left.attack);
+		}else if(_direction == "right"){
+			this.setState(_animation.right.attack);
+		}
+	};
+	this.attack = function(){
+		this.animateAttack();
+	};
 	
 	this.isJumping = function() {
 		return _jump;
@@ -257,7 +88,7 @@ function Character(x, y, animation, state) {
 	};
 	
 	this.update = function() {
-		if(_current_frame >= _state.length - 1) {
+		if(_current_frame >= _state.length) {
 			_current_frame = 0;
 		}
 		
@@ -285,11 +116,7 @@ function Character(x, y, animation, state) {
 		
 		// limit refreshing
 		if((_currentRefresh % _animation.refreshRate) === 0){
-			if(_current_frame >= _state.length - 1) {
-				_current_frame = 0;
-			} else {
-				_current_frame++;
-			}
+			_current_frame++;
 		}
 	};
 	
@@ -395,7 +222,7 @@ $(function() {
 		if(keys[37]) {
 			moveX -= player.getSpeed();
 		}
-		if(keys[32]) {
+		if(keys[38]) {
 			if(!player.isJumping()) {
 				player.jump();
 			}
@@ -412,7 +239,10 @@ $(function() {
 				player.setDirection("right");
 			}
 		}
-		
+		if(keys[32]){
+			player.attack();
+		}
+
 		update_layer(layer.background);
 		update_layer(layer.loot);
 		update_layer(layer.characters);
