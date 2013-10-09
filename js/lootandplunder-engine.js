@@ -31,29 +31,9 @@ function Character(x, y, animation, state) {
 	this.setDirection = function(direction){
 		_direction = direction;
 	};
-	this.animateMove = function(){
-		if(_direction == "left"){
-			this.setState(_animation.left.moving);
-		}else if(_direction == "right"){
-			this.setState(_animation.right.moving);
-		}
-	};
-	this.animateIdle = function(){
-		if(_direction == "left"){
-			this.setState(_animation.left.idle);
-		}else if(_direction == "right"){
-			this.setState(_animation.right.idle);
-		}
-	};
-	this.animateAttack = function(){
-		if(_direction == "left"){
-			this.setState(_animation.left.attack);
-		}else if(_direction == "right"){
-			this.setState(_animation.right.attack);
-		}
-	};
 	this.attack = function(){
 		this.animateAttack();
+		// atack logic
 	};
 	
 	this.isJumping = function() {
@@ -128,6 +108,28 @@ function Character(x, y, animation, state) {
 		dx.fillText(_x + ":" + _y, _x, _y);
 		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
 	};
+
+	this.animateMove = function(){
+		if(_direction == "left"){
+			this.setState(_animation.left.moving);
+		}else if(_direction == "right"){
+			this.setState(_animation.right.moving);
+		}
+	};
+	this.animateIdle = function(){
+		if(_direction == "left"){
+			this.setState(_animation.left.idle);
+		}else if(_direction == "right"){
+			this.setState(_animation.right.idle);
+		}
+	};
+	this.animateAttack = function(){
+		if(_direction == "left"){
+			this.setState(_animation.left.attack);
+		}else if(_direction == "right"){
+			this.setState(_animation.right.attack);
+		}
+	};
 }
 
 function Block(x, y, img_coords) {
@@ -200,9 +202,32 @@ $(function() {
 		}
 		layer.background.push(new Block(800-32, 600-32, blocks.grass_right));
 	}
-	
+	function mirror_animation(){
+		var lft = {
+			idle: [],
+			moving: [],
+			attack: []
+		};
+		// need a clone otherwise evrything gets refrenced
+		var rght = $.extend(true, {}, player.getAnimation().right);
+		var width = 2376;
+		for(var i = 0; i < rght.idle.length; i++){
+			lft.idle[i] = rght.idle[i];
+			lft.idle[i].x = width - rght.idle[i].x - rght.idle[i].width;
+		}
+		for(i = 0; i < rght.moving.length; i++){
+			lft.moving[i] = rght.moving[i];
+			lft.moving[i].x = width - rght.moving[i].x - rght.moving[i].width;
+		}
+		for(i = 0; i < rght.attack.length; i++){
+			lft.attack[i] = rght.attack[i];
+			lft.attack[i].x = width - rght.attack[i].x - rght.attack[i].width;
+		}
+		player.getAnimation().left = lft;
+	}
 	function initialize() {
 		generate_ground();
+		mirror_animation();
 	}
 	
 
