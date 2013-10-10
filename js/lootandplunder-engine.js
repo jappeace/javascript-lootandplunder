@@ -10,10 +10,10 @@ function Character(x, y, animation, state) {
 	var _currentRefresh = 0; // higher is les
 	var _x = x;
 	var _y = y;
-	
+
 	var _dx = 0;
 	var _dy = 0;
-	
+
 	var _jump = false;
 	
 	var _animation = animation;
@@ -76,10 +76,11 @@ function Character(x, y, animation, state) {
 					x:_x,
 					y:_y,
 					height:frame.height,
-					width:frame.width/2
+					width:frame.width
 				}
 			)){
-				return true;
+				// return the block its collides with, which evaulates to true
+				return block;
 			}
 		}
 		return false;
@@ -91,12 +92,13 @@ function Character(x, y, animation, state) {
 		}
 		
 		_currentRefresh++;
-		
-		if(this.collideWithGround()) {
+		var collidingBlock = this.collideWithGround();
+
+		if(collidingBlock) {
 			if(_jump) {
 				_dy = -10;
 			} else {
-				_dy = 0;
+				_dy = (collidingBlock.getY() + collidingBlock.getHeight())-(_y + _state[_current_frame].height);
 			}
 		} else {
 			_dy += 0.35;
