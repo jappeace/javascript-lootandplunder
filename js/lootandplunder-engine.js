@@ -68,7 +68,7 @@ function Character(x, y, animation, state) {
 			if(intersect(
 				{
 					x:block.getX(),
-					y:block.getY(),
+					y:block.getY() + block.getOffset(),
 					height:block.getHeight(),
 					width:block.getWidth()
 				},
@@ -90,15 +90,13 @@ function Character(x, y, animation, state) {
 		if(_current_frame >= _state.length) {
 			_current_frame = 0;
 		}
-		
 		_currentRefresh++;
-		var collidingBlock = this.collideWithGround();
 
-		if(collidingBlock) {
+		if(this.collideWithGround()) {
 			if(_jump) {
 				_dy = -10;
 			} else {
-				_dy = (collidingBlock.getY() + collidingBlock.getHeight())-(_y + _state[_current_frame].height);
+				_dy = 0;
 			}
 		} else {
 			_dy += 0.35;
@@ -178,6 +176,11 @@ function Block(x, y, img_coords) {
 		return _width;
 	};
 
+	// because getting a character perfect on the gras is quite hard an offset was added.
+	// this allows characters to run on the green of the gras, making the bug less obvious`
+	this.getOffset = function(){
+		return 6.5;
+	};
 	this.draw = function(dx) {
 		dx.drawImage(block_sprites, _img_x, _img_y, _width, _height, _x, _y, _width, _height);
 	};
