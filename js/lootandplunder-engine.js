@@ -1,6 +1,11 @@
 var block_sprites = new Image();
 block_sprites.src = "resource/img/blocks.png";
-
+function intersect(one, two) {
+	return !(two.x > (one.x + one.width) ||
+           (two.x + two.width) < one.x ||
+           two.y > (one.y + one.height) ||
+           (two.y + two.height) < one.y);
+}
 function Character(x, y, animation, state) {
 	var _currentRefresh = 0; // higher is les
 	var _x = x;
@@ -60,7 +65,20 @@ function Character(x, y, animation, state) {
 		var frame = _state[_current_frame];
 		for(var i = 0; i < layer.background.length; i++) {
 			var block = layer.background[i];
-			if(_y + frame.height >= block.getY() && _x >= block.getX() - 32 && _x <= block.getX()) {
+			if(intersect(
+				{
+					x:block.getX(),
+					y:block.getY(),
+					height:block.getHeight(),
+					width:block.getWidth()
+				},
+				{
+					x:_x,
+					y:_y,
+					height:frame.height,
+					width:frame.width
+				}
+			)){
 				return true;
 			}
 		}
@@ -81,7 +99,7 @@ function Character(x, y, animation, state) {
 				_dy = 0;
 			}
 		} else {
-			_dy -= -0.35;
+			_dy += 0.35;
 		}
 		
 		if(_dy > 5){
@@ -151,6 +169,13 @@ function Block(x, y, img_coords) {
 		return _y;
 	};
 	
+	this.getHeight = function(){
+		return _height;
+	};
+	this.getWidth = function(){
+		return _width;
+	};
+
 	this.draw = function(dx) {
 		dx.drawImage(block_sprites, _img_x, _img_y, _width, _height, _x, _y, _width, _height);
 	};
