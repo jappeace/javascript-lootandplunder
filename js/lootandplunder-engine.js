@@ -76,7 +76,7 @@ function Character(x, y, animation, state) {
 					x:_x,
 					y:_y,
 					height:frame.height,
-					width:frame.width
+					width:frame.width/2
 				}
 			)){
 				return true;

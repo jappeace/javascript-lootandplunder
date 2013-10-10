@@ -75,39 +75,39 @@ var animations = {
 			attack:[
 				{
 					x:57,
-					y:358,
+					y:358 + 73 - 42,
 					width:74,
-					height:98
+					height:98 + 73 - 42
 				},
 				{
 					x:221,
-					y:348,
-					width:103,
-					height:102
+					y:348 + 73 - 32,
+					width:103 + 75 - 39,
+					height:95 + 73 - 32
 				},
 				{
 					x:427,
-					y:334,
-					width:97,
-					height:114
+					y:334 + 73 - 50,
+					width:97 + 67 - 39,
+					height:110 + 73 - 50
 				},
 				{
 					x:645,
 					y:317,
-					width:79,
-					height:133
+					width:79 + 49 - 39,
+					height:128
 				},
 				{
 					x:845,
-					y:370,
-					width:136,
-					height:88
+					y:370 + 73 - 31,
+					width:136 + 49 - 39,
+					height:85 + 73 - 31
 				},
 				{
 					x:1045,
-					y:392,
-					width:131,
-					height:73
+					y:392 + 73 - 21,
+					width:131 + 54 - 39,
+					height:73 + 73 - 21
 				}
 			]
 
