@@ -4,6 +4,7 @@ var animations = {
 		speed: 5,
 		refreshRate: 4,
 		file: "player",
+		width: 2376,
 		right:
 		{
 			idle:
@@ -117,17 +118,22 @@ var animations = {
 		speed: 5,
 		refreshRate: 28,
 		file: "cyclops",
-		idle: [{
-			x: 3,
-			y: 16,
-			width: 56,
-			height: 80
-		},{
-			x: 64,
-			y: 15,
-			width: 56,
-			height: 80
-		}]
+		width: 1000,
+		right:{
+			idle: [{
+				x: 441,
+				y: 16,
+				width: 56,
+				height: 80
+			},{
+				x: 380,
+				y: 15,
+				width: 56,
+				height: 80
+			}],
+			moving: [],
+			attack:[]
+		}
 	}
 };
 

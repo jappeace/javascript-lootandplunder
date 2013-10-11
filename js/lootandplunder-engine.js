@@ -6,7 +6,32 @@ function intersect(one, two) {
            two.y > (one.y + one.height) ||
            (two.y + two.height) < one.y);
 }
-function Character(x, y, animation, state) {
+function mirrorAnimation(target){
+
+	var lft = {
+		idle: [],
+		moving: [],
+		attack: []
+	};
+
+	// need a clone otherwise evrything gets refrenced
+	var rght = $.extend(true, {}, target.getAnimation().right);
+	var width = target.getAnimation().width;
+	for(var i = 0; i < rght.idle.length; i++){
+		lft.idle[i] = rght.idle[i];
+		lft.idle[i].x = width - rght.idle[i].x - rght.idle[i].width;
+	}
+	for(i = 0; i < rght.moving.length; i++){
+		lft.moving[i] = rght.moving[i];
+		lft.moving[i].x = width - rght.moving[i].x - rght.moving[i].width;
+	}
+	for(i = 0; i < rght.attack.length; i++){
+		lft.attack[i] = rght.attack[i];
+		lft.attack[i].x = width - rght.attack[i].x - rght.attack[i].width;
+	}
+	target.getAnimation().left = lft;
+}
+function Character(x, y, animation) {
 	var _currentRefresh = 0; // higher is les
 	var _x = x;
 	var _y = y;
@@ -17,7 +42,7 @@ function Character(x, y, animation, state) {
 	var _jump = false;
 	
 	var _animation = animation;
-	var _state = state;
+	var _state = _animation.right.idle;
 
 	var _direction = "right";
 	var _img = new Image();
@@ -148,6 +173,8 @@ function Character(x, y, animation, state) {
 			this.setState(_animation.right.attack);
 		}
 	};
+
+	mirrorAnimation(this);
 }
 
 function Block(x, y, img_coords) {
@@ -187,15 +214,13 @@ function Block(x, y, img_coords) {
 }
 
 var keys = [];
-var player = new Character(40, 400, animations.player, animations.player.moving);
+var player = new Character(40, 400, animations.player);
 
 var layer = {
 		background: [new Block(700, 500, blocks.grass_mid)],
 		loot: [],
-		characters: [ player]
+		characters: [ player, new Character(90, 400, animations.cyclops)]
 	};
-
-
 
 $(function() {
 	initialize();
@@ -224,7 +249,6 @@ $(function() {
 		keys[key.keyCode] = false;
 	});
 	
-	
 	function generate_ground() {
 		layer.background.push(new Block(0, 600-32, blocks.grass_left));
 		for(var i = 32; i < (800 -32); i += 32) {
@@ -232,36 +256,11 @@ $(function() {
 		}
 		layer.background.push(new Block(800-32, 600-32, blocks.grass_right));
 	}
-	function mirror_animation(){
-		var lft = {
-			idle: [],
-			moving: [],
-			attack: []
-		};
-		// need a clone otherwise evrything gets refrenced
-		var rght = $.extend(true, {}, player.getAnimation().right);
-		var width = 2376;
-		for(var i = 0; i < rght.idle.length; i++){
-			lft.idle[i] = rght.idle[i];
-			lft.idle[i].x = width - rght.idle[i].x - rght.idle[i].width;
-		}
-		for(i = 0; i < rght.moving.length; i++){
-			lft.moving[i] = rght.moving[i];
-			lft.moving[i].x = width - rght.moving[i].x - rght.moving[i].width;
-		}
-		for(i = 0; i < rght.attack.length; i++){
-			lft.attack[i] = rght.attack[i];
-			lft.attack[i].x = width - rght.attack[i].x - rght.attack[i].width;
-		}
-		player.getAnimation().left = lft;
-	}
+
 	function initialize() {
 		generate_ground();
-		mirror_animation();
 	}
-	
 
-	
 	function update_layer(layer) {
 		for(var i = 0; i < layer.length; i++) {
 			layer[i].update();
