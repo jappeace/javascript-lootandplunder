@@ -6,14 +6,13 @@ function intersect(one, two) {
            two.y > (one.y + one.height) ||
            (two.y + two.height) < one.y);
 }
-function Character(x, y, animation, ai) {
+function Character(position, animation, ai) {
 	var _currentRefresh = 0; // higher is les
-	var _x = x;
-	var _y = y;
+	var _position = position;
+	var _difference = new Vector();
+	
 	var _ai = ai;
 	_ai.setBody(this);
-	var _dx = 0;
-	var _dy = 0;
 
 	var _jump = false;
 	
@@ -26,17 +25,8 @@ function Character(x, y, animation, ai) {
 	
 	var _current_frame = 0;
 
-	this.move = function(dx, dy) {
-		_x += dx;
-		_y += dy;
-	};
-
-	this.getX = function(){
-		return _x;
-	};
-
-	this.getY = function(){
-		return _y;
+	this.getPosition = function(){
+		return _position;
 	};
 	
 	this.setState = function(state) {
@@ -82,8 +72,8 @@ function Character(x, y, animation, ai) {
 					width:block.getWidth()
 				},
 				{
-					x:_x,
-					y:_y,
+					x:_position.getX(),
+					y:_position.getY(),
 					height:frame.height,
 					width:frame.width
 				}
@@ -105,19 +95,18 @@ function Character(x, y, animation, ai) {
 
 		if(this.collideWithGround()) {
 			if(_jump) {
-				_dy = -10;
+				_difference.setY(-10);
 			} else {
-				_dy = 0;
+				_difference.setY(0);
 			}
 		} else {
-			_dy += 0.35;
+			_difference.add(new Vector(0, 0.35));
 		}
 		
-		if(_dy > 5){
-			_dy = 5;
+		if(_difference.getY() > 5){
+			_difference.setY(5);
 		}
-		
-		this.move(_dx, _dy);
+		_position.add(_difference);
 
 		if(_jump) {
 			_jump = false;
@@ -134,8 +123,18 @@ function Character(x, y, animation, ai) {
 			_current_frame = 0;
 		}
 		var frame = _state[_current_frame];
-		dx.fillText(_x + ":" + _y, _x, _y);
-		dx.drawImage(_img, frame.x, frame.y, frame.width, frame.height, _x, _y, frame.width, frame.height);
+		dx.fillText(_position.getX() + ":" + _position.getY(), _position.getX(), _position.getY());
+		dx.drawImage(
+			_img,
+			frame.x,
+			frame.y,
+			frame.width,
+			frame.height,
+			_position.getX(),
+			_position.getY(),
+			frame.width,
+			frame.height
+		);
 	};
 
 	this.animateMove = function(){
@@ -192,9 +191,8 @@ function hostileAI(){
 	};
 	this.update = function(){
 		if(_body instanceof Character){
-			
-			_body.move(player.getX() - _body.getX(),  player.getY() - _body.getY());
-		} 
+			_body.getPosition().add(player.getPosition().clone().substract(_body.getPosition().clone()));
+		}
 	};
 }
 
@@ -235,12 +233,12 @@ function Block(x, y, img_coords) {
 }
 
 var keys = [];
-var player = new Character(40, 400, animations.player, new dummyAI());
+var player = new Character(new Vector(40, 400), animations.player, new dummyAI());
 
 var layer = {
 		background: [new Block(700, 500, blocks.grass_mid)],
 		loot: [],
-		characters: [ player, new Character(90, 400, animations.cyclops, new hostileAI())]
+		characters: [ player, new Character(new Vector(90, 400), animations.cyclops, new hostileAI())]
 	};
 
 $(function() {
@@ -290,12 +288,12 @@ $(function() {
 	
 	function gamelogic() {
 		//39 = rechts, 37 = links, up=38, down=40, space=32
-		var moveX = 0;
+		var movement = new Vector();
 		if(keys[39]) { //move right
-			moveX += player.getSpeed();
+			movement.add(new Vector(player.getSpeed()));
 		}
 		if(keys[37]) {
-			moveX -= player.getSpeed();
+			movement.substract(new Vector(player.getSpeed()));
 		}
 		if(keys[38]) {
 			if(!player.isJumping()) {
@@ -303,12 +301,12 @@ $(function() {
 			}
 		}
 		
-		if(moveX === 0) {
+		if(movement.getX() == new Vector().getX()) {
 			player.animateIdle();
 		} else {
 			player.animateMove();
-			player.move(moveX, 0);
-			if(moveX < 0){
+			player.getPosition().add(movement);
+			if(movement.getX() < 0){
 				player.setDirection("left");
 			}else{
 				player.setDirection("right");

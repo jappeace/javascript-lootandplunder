@@ -2,6 +2,7 @@
 // these ar usealy floats and can be calculated with.
 //
 // Constructor for vector... default values for x and y are zero
+// Most methods return this, so chaining is possible
 function Vector(x, y) {
 
 	x = typeof x !== 'undefined' ? x : 0;
@@ -27,7 +28,7 @@ function Vector(x, y) {
 		return this;
 	};
 	this.clone = function(){
-		var result = new this();
+		var result = new Vector();
 		result.setX(_x);
 		result.setY(_y);
 		return result;
