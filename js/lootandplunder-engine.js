@@ -123,7 +123,6 @@ function Character(position, animation, ai) {
 			_current_frame = 0;
 		}
 		var frame = _state[_current_frame];
-		dx.fillText(_position.getX() + ":" + _position.getY(), _position.getX(), _position.getY());
 		dx.drawImage(
 			_img,
 			frame.x,
@@ -221,7 +220,7 @@ function hostileAI(){
 	var _atackRange = 20;
 	var _timeout = 100; // how long to wait before atacking
 	var _speed = 0.005;
-
+	var _agresiveRange = 300; // when to start following
 	var _body;
 	this.setBody = function(to){
 		_body = to;
@@ -229,9 +228,19 @@ function hostileAI(){
 	this.update = function(){
 		if(_body instanceof Character){
 			var distance = player.getPosition().clone().substract(_body.getPosition().clone());
-			distance.multiply(new Vector(_speed, _speed));
 			_body.face(distance.getX());
-			_body.getPosition().add(distance);
+			
+			if(distance.getX() < _agresiveRange && distance.getY() < _agresiveRange){
+				if(distance.getX() < _atackRange && distance.getY() < _atackRange){
+					_body.attack();
+				}else{
+					_body.animateMove();
+				}
+				distance.multiply(new Vector(_speed, _speed));
+				_body.getPosition().add(distance);
+			}else{
+				_body.animateIdle();
+			}
 		}
 	};
 }

@@ -131,8 +131,18 @@ var animations = {
 				width: 56,
 				height: 80
 			}],
-			moving: [],
-			attack:[]
+			moving: [{
+				x: 119,
+				y: 30,
+				width:58,
+				height:63
+			}],
+			attack:[{
+				x: 233,
+				y: 96,
+				width:97,
+				height:96
+			}]
 		}
 	}
 };
