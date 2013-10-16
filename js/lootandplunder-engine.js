@@ -146,6 +146,14 @@ function Character(position, animation, ai) {
 	this.animateAttack = function(){
 		this.setState(_animation[_direction].attack);
 	};
+	
+	this.face = function(movementX){
+		if(movementX < 0){
+			this.setDirection("left");
+		}else{
+			this.setDirection("right");
+		}
+	};
 
 	var mirrorAnimation = function (target){
 		var lft = {
@@ -183,7 +191,7 @@ function dummyAI(){
 function hostileAI(){
 	var _atackRange = 20;
 	var _timeout = 100; // how long to wait before atacking
-	var _speed = 0.5;
+	var _speed = 0.005;
 
 	var _body;
 	this.setBody = function(to){
@@ -191,7 +199,10 @@ function hostileAI(){
 	};
 	this.update = function(){
 		if(_body instanceof Character){
-			_body.getPosition().add(player.getPosition().clone().substract(_body.getPosition().clone()));
+			var distance = player.getPosition().clone().substract(_body.getPosition().clone());
+			distance.multiply(new Vector(_speed, _speed));
+			_body.face(distance.getX());
+			_body.getPosition().add(distance);
 		}
 	};
 }
@@ -306,11 +317,7 @@ $(function() {
 		} else {
 			player.animateMove();
 			player.getPosition().add(movement);
-			if(movement.getX() < 0){
-				player.setDirection("left");
-			}else{
-				player.setDirection("right");
-			}
+			player.face(movement.getX());
 		}
 		if(keys[32]){
 			player.attack();
