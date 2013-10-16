@@ -183,9 +183,38 @@ function Character(position, animation, ai) {
 }
 
 // AI for a player: ie none
-function dummyAI(){
-	this.setBody = function(to){};
-	this.update = function(){};
+function playerAI(){
+	var _player;
+	this.setBody = function(to){
+		_player = to;
+	};
+	this.update = function(){
+		//39 = rechts, 37 = links, up=38, down=40, space=32
+		var movement = new Vector();
+		if(keys[39]) { //move right
+			movement.add(new Vector(_player.getSpeed()));
+		}
+		if(keys[37]) {
+			movement.substract(new Vector(_player.getSpeed()));
+		}
+		if(keys[38]) {
+			if(!_player.isJumping()) {
+				_player.jump();
+			}
+		}
+		
+		if(movement.getX() == new Vector().getX()) {
+			_player.animateIdle();
+		} else {
+			_player.animateMove();
+			_player.getPosition().add(movement);
+			_player.face(movement.getX());
+		}
+		if(keys[32]){
+			_player.attack();
+		}
+	
+	};
 }
 
 function hostileAI(){
@@ -244,7 +273,7 @@ function Block(x, y, img_coords) {
 }
 
 var keys = [];
-var player = new Character(new Vector(40, 400), animations.player, new dummyAI());
+var player = new Character(new Vector(40, 400), animations.player, new playerAI());
 
 var layer = {
 		background: [new Block(700, 500, blocks.grass_mid)],
@@ -298,30 +327,6 @@ $(function() {
 	}
 	
 	function gamelogic() {
-		//39 = rechts, 37 = links, up=38, down=40, space=32
-		var movement = new Vector();
-		if(keys[39]) { //move right
-			movement.add(new Vector(player.getSpeed()));
-		}
-		if(keys[37]) {
-			movement.substract(new Vector(player.getSpeed()));
-		}
-		if(keys[38]) {
-			if(!player.isJumping()) {
-				player.jump();
-			}
-		}
-		
-		if(movement.getX() == new Vector().getX()) {
-			player.animateIdle();
-		} else {
-			player.animateMove();
-			player.getPosition().add(movement);
-			player.face(movement.getX());
-		}
-		if(keys[32]){
-			player.attack();
-		}
 
 		update_layer(layer.background);
 		update_layer(layer.loot);
