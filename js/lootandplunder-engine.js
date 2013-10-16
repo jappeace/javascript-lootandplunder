@@ -6,36 +6,12 @@ function intersect(one, two) {
            two.y > (one.y + one.height) ||
            (two.y + two.height) < one.y);
 }
-function mirrorAnimation(target){
-
-	var lft = {
-		idle: [],
-		moving: [],
-		attack: []
-	};
-
-	// need a clone otherwise evrything gets refrenced
-	var rght = $.extend(true, {}, target.getAnimation().right);
-	var width = target.getAnimation().width;
-	for(var i = 0; i < rght.idle.length; i++){
-		lft.idle[i] = rght.idle[i];
-		lft.idle[i].x = width - rght.idle[i].x - rght.idle[i].width;
-	}
-	for(i = 0; i < rght.moving.length; i++){
-		lft.moving[i] = rght.moving[i];
-		lft.moving[i].x = width - rght.moving[i].x - rght.moving[i].width;
-	}
-	for(i = 0; i < rght.attack.length; i++){
-		lft.attack[i] = rght.attack[i];
-		lft.attack[i].x = width - rght.attack[i].x - rght.attack[i].width;
-	}
-	target.getAnimation().left = lft;
-}
-function Character(x, y, animation) {
+function Character(x, y, animation, ai) {
 	var _currentRefresh = 0; // higher is les
 	var _x = x;
 	var _y = y;
-
+	var _ai = ai;
+	_ai.setBody(this);
 	var _dx = 0;
 	var _dy = 0;
 
@@ -53,6 +29,14 @@ function Character(x, y, animation) {
 	this.move = function(dx, dy) {
 		_x += dx;
 		_y += dy;
+	};
+
+	this.getX = function(){
+		return _x;
+	};
+
+	this.getY = function(){
+		return _y;
 	};
 	
 	this.setState = function(state) {
@@ -116,6 +100,8 @@ function Character(x, y, animation) {
 			_current_frame = 0;
 		}
 		_currentRefresh++;
+		
+		_ai.update();
 
 		if(this.collideWithGround()) {
 			if(_jump) {
@@ -153,28 +139,63 @@ function Character(x, y, animation) {
 	};
 
 	this.animateMove = function(){
-		if(_direction == "left"){
-			this.setState(_animation.left.moving);
-		}else if(_direction == "right"){
-			this.setState(_animation.right.moving);
-		}
+		this.setState(_animation[_direction].moving);
 	};
 	this.animateIdle = function(){
-		if(_direction == "left"){
-			this.setState(_animation.left.idle);
-		}else if(_direction == "right"){
-			this.setState(_animation.right.idle);
-		}
+		this.setState(_animation[_direction].idle);
 	};
 	this.animateAttack = function(){
-		if(_direction == "left"){
-			this.setState(_animation.left.attack);
-		}else if(_direction == "right"){
-			this.setState(_animation.right.attack);
-		}
+		this.setState(_animation[_direction].attack);
 	};
 
+	var mirrorAnimation = function (target){
+		var lft = {
+			idle: [],
+			moving: [],
+			attack: []
+		};
+
+		// need a clone otherwise evrything gets refrenced
+		var rght = $.extend(true, {}, target.getAnimation().right);
+		var width = target.getAnimation().width;
+		for(var i = 0; i < rght.idle.length; i++){
+			lft.idle[i] = rght.idle[i];
+			lft.idle[i].x = width - rght.idle[i].x - rght.idle[i].width;
+		}
+		for(i = 0; i < rght.moving.length; i++){
+			lft.moving[i] = rght.moving[i];
+			lft.moving[i].x = width - rght.moving[i].x - rght.moving[i].width;
+		}
+		for(i = 0; i < rght.attack.length; i++){
+			lft.attack[i] = rght.attack[i];
+			lft.attack[i].x = width - rght.attack[i].x - rght.attack[i].width;
+		}
+		target.getAnimation().left = lft;
+	};
 	mirrorAnimation(this);
+}
+
+// AI for a player: ie none
+function dummyAI(){
+	this.setBody = function(to){};
+	this.update = function(){};
+}
+
+function hostileAI(){
+	var _atackRange = 20;
+	var _timeout = 100; // how long to wait before atacking
+	var _speed = 0.5;
+
+	var _body;
+	this.setBody = function(to){
+		_body = to;
+	};
+	this.update = function(){
+		if(_body instanceof Character){
+			
+			_body.move(player.getX() - _body.getX(),  player.getY() - _body.getY());
+		} 
+	};
 }
 
 function Block(x, y, img_coords) {
@@ -214,12 +235,12 @@ function Block(x, y, img_coords) {
 }
 
 var keys = [];
-var player = new Character(40, 400, animations.player);
+var player = new Character(40, 400, animations.player, new dummyAI());
 
 var layer = {
 		background: [new Block(700, 500, blocks.grass_mid)],
 		loot: [],
-		characters: [ player, new Character(90, 400, animations.cyclops)]
+		characters: [ player, new Character(90, 400, animations.cyclops, new hostileAI())]
 	};
 
 $(function() {
