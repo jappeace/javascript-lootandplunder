@@ -217,11 +217,13 @@ function playerAI(){
 }
 
 function hostileAI(){
-	var _atackRange = 50;
-	var _timeout = 100; // how long to wait before atacking
-	var _speed = 0.005;
+	var _attackRange = 50; // when to start attacking
+	var _attackCycle = new Counter(100); // how long to wait before attacking
+	var _attackDuration = new Counter(10); // how long to remain in attacking state
+	var _attackendevour = false; // if curently attacking
+	var _speed = 0.005; // moving speed
 	var _agresiveRange = 300; // when to start following
-	var _body;
+	var _body; // the pupet to controll
 	this.setBody = function(to){
 		_body = to;
 	};
@@ -231,13 +233,18 @@ function hostileAI(){
 			_body.face(distance.getX());
 			
 			if(distance.getX() < _agresiveRange && distance.getY() < _agresiveRange && distance.getX() > -_agresiveRange && distance.getY() > -_agresiveRange){
-				if(distance.getX() < _atackRange && distance.getY() < _atackRange && distance.getX() > -_atackRange && distance.getY() > -_atackRange){
-					_body.attack();
+				if(distance.getX() < _attackRange && distance.getY() < _attackRange && distance.getX() > -_attackRange && distance.getY() > -_attackRange){
+					if(_attackCycle.execute() || _attackendevour){
+						_attackendevour = !_attackDuration.execute();
+						_body.attack();
+					}else{
+						_body.animateIdle();
+					}
 				}else{
 					_body.animateMove();
+					distance.multiply(new Vector(_speed, _speed));
+					_body.getPosition().add(distance);
 				}
-				distance.multiply(new Vector(_speed, _speed));
-				_body.getPosition().add(distance);
 			}else{
 				_body.animateIdle();
 			}

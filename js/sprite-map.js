@@ -137,12 +137,26 @@ var animations = {
 				width:58,
 				height:63
 			}],
-			attack:[{
-				x: 233,
-				y: 96,
-				width:97,
-				height:96
-			}]
+			attack:[
+				{
+					x: 233,
+					y: 96,
+					width:97,
+					height:96
+				},
+				{
+					x: 233,
+					y: 96,
+					width:97,
+					height:96
+				},
+				{
+					x: 233,
+					y: 96,
+					width:97,
+					height:96
+				}
+			]
 		}
 	}
 };
