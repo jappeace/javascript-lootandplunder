@@ -217,7 +217,7 @@ function playerAI(){
 }
 
 function hostileAI(){
-	var _atackRange = 20;
+	var _atackRange = 50;
 	var _timeout = 100; // how long to wait before atacking
 	var _speed = 0.005;
 	var _agresiveRange = 300; // when to start following
@@ -230,8 +230,8 @@ function hostileAI(){
 			var distance = player.getPosition().clone().substract(_body.getPosition().clone());
 			_body.face(distance.getX());
 			
-			if(distance.getX() < _agresiveRange && distance.getY() < _agresiveRange){
-				if(distance.getX() < _atackRange && distance.getY() < _atackRange){
+			if(distance.getX() < _agresiveRange && distance.getY() < _agresiveRange && distance.getX() > -_agresiveRange && distance.getY() > -_agresiveRange){
+				if(distance.getX() < _atackRange && distance.getY() < _atackRange && distance.getX() > -_atackRange && distance.getY() > -_atackRange){
 					_body.attack();
 				}else{
 					_body.animateMove();
