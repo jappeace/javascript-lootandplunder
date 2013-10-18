@@ -337,10 +337,14 @@ var keys = [];
 var player = new Character(new Vector(40, 400), animations.player, new playerAI());
 
 var layer = {
-		background: [new Block(700, 500, blocks.grass_mid)],
+		background: [],
 		loot: [],
 		characters: [ player, new Character(new Vector(600, 400), animations.cyclops, new hostileAI())]
 	};
+
+function load_map(map) {
+	layer.background = layer.background.concat(map);
+}
 
 $(function() {
 	initialize();
