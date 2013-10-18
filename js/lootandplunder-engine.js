@@ -70,6 +70,10 @@ function Character(position, animation, ai) {
 		}
 	};
 	
+	this.isAlive = function() {
+		return !_dead;
+	}
+	
 	this.hit = function() {
 		_dead = true;
 	}
@@ -153,6 +157,7 @@ function Character(position, animation, ai) {
 	};
 	
 	this.draw = function(dx) {
+		
 		if(_current_frame >= _state.length) {
 			_current_frame = 0;
 		}
@@ -252,7 +257,7 @@ function playerAI(){
 }
 
 function hostileAI(){
-	var _attackRange = 50; // when to start attacking
+	var _attackRange = 90; // when to start attacking
 	var _attackCycle = new Counter(100); // how long to wait before attacking
 	var _attackDuration = new Counter(10); // how long to remain in attacking state
 	var _attackendevour = false; // if curently attacking
@@ -262,8 +267,13 @@ function hostileAI(){
 	this.setBody = function(to){
 		_body = to;
 	};
+	
 	this.update = function(){
 		if(_body instanceof Character){
+			if(!_body.isAlive()) {
+				layer.characters.splice(layer.characters.indexOf(_body), 1);
+			}
+			
 			var distance = player.getPosition().clone().substract(_body.getPosition().clone());
 			_body.face(distance.getX());
 			
@@ -329,7 +339,7 @@ var player = new Character(new Vector(40, 400), animations.player, new playerAI(
 var layer = {
 		background: [new Block(700, 500, blocks.grass_mid)],
 		loot: [],
-		characters: [ player, new Character(new Vector(90, 400), animations.cyclops, new hostileAI())]
+		characters: [ player, new Character(new Vector(600, 400), animations.cyclops, new hostileAI())]
 	};
 
 $(function() {
@@ -377,8 +387,18 @@ $(function() {
 		}
 	}
 	
+	var stage = 1;
+	
 	function gamelogic() {
 
+		//spawn ogres
+		if(layer.characters.length <= 1) {
+			for(var i = 0; i < stage * 3; i++) {
+				layer.characters.push(new Character(new Vector((Math.random()*800), 0), animations.cyclops, new hostileAI()));
+			}
+			stage++;
+		}
+		
 		update_layer(layer.background);
 		update_layer(layer.loot);
 		update_layer(layer.characters);
