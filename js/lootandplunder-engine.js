@@ -398,7 +398,7 @@ $(function() {
 			}
 			stage++;
 		}
-		
+
 		update_layer(layer.background);
 		update_layer(layer.loot);
 		update_layer(layer.characters);
@@ -414,5 +414,8 @@ $(function() {
 		render_layer(layer.background);
 		render_layer(layer.loot);
 		render_layer(layer.characters);
+		context.fillText("Stage: " + stage, 20, 30);
+		context.fillText("NPCS alive: " + (layer.characters.length - 1), 20, 45);
+		
 	}
 });
