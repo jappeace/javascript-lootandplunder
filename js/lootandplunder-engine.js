@@ -11,6 +11,8 @@ function Character(position, animation, ai) {
 	var _position = position;
 	var _difference = new Vector();
 	
+	var _dead = false;
+	
 	var _ai = ai;
 	_ai.setBody(this);
 
@@ -29,16 +31,48 @@ function Character(position, animation, ai) {
 		return _position;
 	};
 	
+	this.getCurrentFrame = function() {
+		return _state[_current_frame];
+	}
+	
 	this.setState = function(state) {
 		_state = state;
 	};
+	
 	this.setDirection = function(direction){
 		_direction = direction;
 	};
+	
 	this.attack = function(){
 		this.animateAttack();
-		// atack logic
+		
+		var frame = _state[_current_frame];
+		for(var i = 0; i < layer.characters.length; i++) {
+			var current = layer.characters[i];
+			if(current != this) {
+				if(intersect(
+						{
+							x:current.getPosition().getX(),
+							y:current.getPosition().getY(),
+							height:current.getCurrentFrame().height,
+							width:current.getCurrentFrame().width
+						},
+						{
+							x:this.getPosition().getX(),
+							y:this.getPosition().getY(),
+							height:frame.height,
+							width:frame.width
+						}
+					)){
+						current.hit();
+					}
+			}
+		}
 	};
+	
+	this.hit = function() {
+		_dead = true;
+	}
 	
 	this.isJumping = function() {
 		return _jump;
@@ -103,7 +137,7 @@ function Character(position, animation, ai) {
 			_difference.add(new Vector(0, 0.35));
 		}
 		
-		if(_difference.getY() > 5){
+		if(_difference.getY() > 5) { //Stop the player from falling too hard.
 			_difference.setY(5);
 		}
 		_position.add(_difference);
@@ -123,6 +157,7 @@ function Character(position, animation, ai) {
 			_current_frame = 0;
 		}
 		var frame = _state[_current_frame];
+		dx.fillText("Dead: " + _dead, _position.getX(), _position.getY());
 		dx.drawImage(
 			_img,
 			frame.x,
