@@ -242,7 +242,7 @@ function hostileAI(){
 					}
 				}else{
 					_body.animateMove();
-					distance.multiply(new Vector(_speed, _speed));
+					distance.multiply(new Vector(_speed, 0)); //speed 0 because otherwise it will fly
 					_body.getPosition().add(distance);
 				}
 			}else{
