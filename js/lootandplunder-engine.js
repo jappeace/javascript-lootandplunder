@@ -110,10 +110,10 @@ function Character(position, animation, ai) {
 					width:block.getWidth()
 				},
 				{
-					x:_position.getX(),
+					x:_position.getX() + 30,
 					y:_position.getY() + frame.height,
 					height:5,
-					width:frame.width
+					width: 30
 				}
 			)){
 				// return the block its collides with, which evaulates to true
