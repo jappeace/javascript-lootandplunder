@@ -111,8 +111,8 @@ function Character(position, animation, ai) {
 				},
 				{
 					x:_position.getX(),
-					y:_position.getY(),
-					height:frame.height,
+					y:_position.getY() + frame.height,
+					height:5,
 					width:frame.width
 				}
 			)){
