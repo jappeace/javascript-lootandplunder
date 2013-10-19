@@ -143,10 +143,14 @@ $(function() {
 			var placed = layer.placed[i];
 			generated_blocks += "new Block(" + placed.toString() + "),\r\n";
 		}
-		$("#generatedmap").text("" +
-    			"var map = [" +
-    			generated_blocks +
-    			"];");
+		
+		var text = "" +
+		"var map = [" +
+		generated_blocks +
+		"];";
+		
+		$("#generatedmap").text(text);
+		$("#mapgen").val(text);
 	}
 	
 	$("#editor").click(function(event) {
