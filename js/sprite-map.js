@@ -173,5 +173,25 @@ var blocks = {
 	grass_right: {
 		x: 342,
 		y: 36
+	},
+	dirt_mid: {
+		x: 172,
+		y: 206
+	},
+	dirt_mid_2: {
+		x: 207,
+		y: 206
+	},
+	dirt_mid_3: {
+		x: 138,
+		y: 206
+	},
+	glass: { 
+		x: 2,
+		y: 342
+	},
+	glass_2: { 
+		x: 2,
+		y: 342
 	}
 };
