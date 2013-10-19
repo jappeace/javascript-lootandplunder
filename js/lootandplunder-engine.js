@@ -106,7 +106,7 @@ function Character(position, animation, ai) {
 				{
 					x:block.getX(),
 					y:block.getY() + block.getOffset(),
-					height:block.getHeight(),
+					height: block.getHeight(),
 					width:block.getWidth()
 				},
 				{
@@ -277,6 +277,10 @@ function hostileAI(){
 			var distance = player.getPosition().clone().substract(_body.getPosition().clone());
 			_body.face(distance.getX());
 			
+			if(_body.getPosition().getY() > 800) { //NPC fell of the map, so it died
+				_body.hit();
+			}
+			
 			if(distance.getX() < _agresiveRange && distance.getY() < _agresiveRange && distance.getX() > -_agresiveRange && distance.getY() > -_agresiveRange){
 				if(distance.getX() < _attackRange && distance.getY() < _attackRange && distance.getX() > -_attackRange && distance.getY() > -_attackRange){
 					if(_attackCycle.execute() || _attackendevour){
@@ -293,6 +297,7 @@ function hostileAI(){
 			}else{
 				_body.animateIdle();
 			}
+			
 		}
 	};
 }
