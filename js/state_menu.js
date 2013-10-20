@@ -5,13 +5,16 @@
 function MainMenu() {
 	
 	this.initialize = function() {
+		
 		this.addMenuItem(new Rectangle(300, 150, 200, 60), "Start game", function() {
-			console.log("started game");
+			game.setState(new GamePlay());
 		});
 		
 		this.addMenuItem(new Rectangle(300, 230, 200, 60), "Map editor", function() {
-			console.log("Opening map editor");
+			game.setState(new MapEditor());
 		});
+		game.resize(800);
+		context.font = "bold 24px Arial";
 	}
 	
 	this.update = function() {
@@ -31,7 +34,6 @@ function MainMenu() {
 		context.lineWidth = 2;
 		context.strokeStyle = 'black';
 		context.stroke();
-		context.font = "bold 24px Arial";
 		context.fillText(text, x + (100 - 6*text.length), y + 35);
 	}
 	

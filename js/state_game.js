@@ -87,6 +87,8 @@ function GamePlay() {
 	
 	this.initialize = function() {
 		generate_ground();
+		game.resize(800);
+		context.font = "12px Arial";
 	}
 	
 	this.update = function() {
@@ -103,9 +105,9 @@ function GamePlay() {
 	}
 	
 	this.render = function() {
-		render_layer(game.layer.background);
-		render_layer(game.layer.loot);
-		render_layer(game.layer.characters);
+		game.render_layer(game.layer.background);
+		game.render_layer(game.layer.loot);
+		game.render_layer(game.layer.characters);
 		context.fillText("Stage: " + game.stage, 20, 30);
 		context.fillText("NPCS alive: " + (game.layer.characters.length - 1), 20, 45);
 	}
@@ -129,12 +131,6 @@ function GamePlay() {
 	var update_layer = function(layer) {
 		for(var i = 0; i < layer.length; i++) {
 			layer[i].update();
-		}
-	}
-	
-	var render_layer = function(layer) {
-		for(var i = 0; i < layer.length; i++) {
-			layer[i].draw(context);
 		}
 	}
 	

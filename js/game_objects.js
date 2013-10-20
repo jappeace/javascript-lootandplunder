@@ -241,6 +241,7 @@ function Block(x, y, img_coords) {
 	this.getX = function() {
 		return _x;
 	};
+	
 	this.getY = function() {
 		return _y;
 	};
@@ -248,15 +249,21 @@ function Block(x, y, img_coords) {
 	this.getHeight = function(){
 		return _height;
 	};
+	
 	this.getWidth = function(){
 		return _width;
 	};
+	
+    this.getImageCoords = function() {
+        return {x: _img_x, y: _img_y};
+    }
 
 	// because getting a character perfect on the gras is quite hard an offset was added.
 	// this allows characters to run on the green of the gras, making the bug less obvious`
 	this.getOffset = function(){
 		return 6.5;
 	};
+	
 	this.draw = function(dx) {
 		dx.drawImage(block_sprites, _img_x, _img_y, _width, _height, _x, _y, _width, _height);
 	};

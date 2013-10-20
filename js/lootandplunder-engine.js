@@ -15,6 +15,9 @@ function Game() {
 	this.layer = {
 			background: [],
 			loot: [],
+			placed: [], //placed items in map editor
+			toolbox: [], //items in the toolbox
+			toolbox_current:new Block(20, 20, blocks.glass),
 			characters: [player, new Character(new Vector(600, 400), animations.cyclops, new hostileAI())]
 		};
 	
@@ -50,6 +53,22 @@ function Game() {
 		}
 	}
 	
+	this.render_layer = function(layer) {
+		for(var i = 0; i < layer.length; i++) {
+			layer[i].draw(context);
+		}
+	}
+	
+	this.clearMap = function() {
+		this.layer.background = [];
+		this.layer.loot = [];
+	}
+	
+	this.resize = function(width) {
+		$("#game").attr('width', width);
+		$("#game").css('width', width);
+	}
+	
 }
 
 /*
@@ -60,7 +79,6 @@ var game = new Game();
 var context = null;
 
 $(function() {
-	game.setState(new MainMenu());
 	
     var c = document.getElementById("game");
     context = c.getContext("2d");
@@ -82,6 +100,7 @@ $(function() {
     })();
     
 	$(document).keydown(function(key) {
+		console.log(key.keyCode);
 		game.keys[key.keyCode] = true;
 	});
 	
@@ -95,4 +114,6 @@ $(function() {
 	    var y = Math.floor((event.pageY - $("#game").offset().top));
 	    game.getState().mouseClick(x, y);
 	});
+	
+	game.setState(new MainMenu());
 });
