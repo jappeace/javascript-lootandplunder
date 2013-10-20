@@ -11,7 +11,7 @@
 		
 		<script type="text/javascript" src="js/lootandplunder-engine.js"></script>
 		<script>
-			<?=$_POST["map"];?>
+			<?=htmlspecialchars($_POST["map"]);?>
 
 			load_map(map);
 		</script>
