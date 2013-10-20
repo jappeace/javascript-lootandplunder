@@ -34,6 +34,10 @@ function Game() {
 		state.initialize();
 	}
 	
+	this.getState = function() {
+		return current_state;
+	}
+	
 	this.gamelogic = function() {
 		if(current_state != null) {
 			current_state.update();
@@ -46,26 +50,17 @@ function Game() {
 		}
 	}
 	
-	$("#game").click(function(event) {
-		
-		//get correct block from toolbox by mouse click
-	    var x = Math.floor((event.pageX - $("#game").offset().left));
-	    var y = Math.floor((event.pageY - $("#game").offset().top));
-	    
-	    
-	});
 }
 
 /*
  * Global game object which holds all the data.
  */
 var game = new Game();
-game.setState(new GamePlay());
 
 var context = null;
 
 $(function() {
-	game.setState(new GamePlay());
+	game.setState(new MainMenu());
 	
     var c = document.getElementById("game");
     context = c.getContext("2d");
@@ -92,5 +87,12 @@ $(function() {
 	
 	$(document).keyup(function(key) {
 		game.keys[key.keyCode] = false;
+	});
+	
+	$("#game").click(function(event) {
+		//get correct block from toolbox by mouse click
+	    var x = Math.floor((event.pageX - $("#game").offset().left));
+	    var y = Math.floor((event.pageY - $("#game").offset().top));
+	    game.getState().mouseClick(x, y);
 	});
 });
