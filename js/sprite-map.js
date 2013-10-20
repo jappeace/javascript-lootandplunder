@@ -139,17 +139,12 @@ var animations = {
 			}],
 			attack:[
 				{
-					x: 233,
-					y: 96,
-					width:97,
-					height:96
+					x: 447,
+					y: 104,
+					width:49,
+					height:90
 				},
-				{
-					x: 233,
-					y: 96,
-					width:97,
-					height:96
-				},
+				
 				{
 					x: 233,
 					y: 96,

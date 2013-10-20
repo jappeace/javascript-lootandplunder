@@ -19,4 +19,4 @@ var map = [
            new Block(296, 320, blocks.grass_right),
            ];
 
-load_map(map);
+//load_map(map);
