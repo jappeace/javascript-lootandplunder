@@ -1,6 +1,7 @@
 #eclipse stuff
 .buildpath
 .project
+.classpath
 .settings/*
 #photo editor
 *.psd
