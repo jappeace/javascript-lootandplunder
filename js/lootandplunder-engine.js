@@ -32,6 +32,9 @@ function Character(position, animation, ai) {
 	};
 	
 	this.getCurrentFrame = function() {
+		if(_current_frame >= _state.length) {
+			_current_frame = 0;
+		}
 		return _state[_current_frame];
 	}
 	
@@ -46,7 +49,7 @@ function Character(position, animation, ai) {
 	this.attack = function(){
 		this.animateAttack();
 		
-		var frame = _state[_current_frame];
+		var frame = this.getCurrentFrame();
 		for(var i = 0; i < layer.characters.length; i++) {
 			var current = layer.characters[i];
 			if(current != this) {
@@ -99,7 +102,7 @@ function Character(position, animation, ai) {
 	};
 	
 	this.collideWithGround = function() {
-		var frame = _state[_current_frame];
+		var frame = this.getCurrentFrame();
 		for(var i = 0; i < layer.background.length; i++) {
 			var block = layer.background[i];
 			if(intersect(
@@ -157,11 +160,7 @@ function Character(position, animation, ai) {
 	};
 	
 	this.draw = function(dx) {
-		
-		if(_current_frame >= _state.length) {
-			_current_frame = 0;
-		}
-		var frame = _state[_current_frame];
+		var frame = this.getCurrentFrame();
 		dx.fillText("Dead: " + _dead, _position.getX(), _position.getY());
 		dx.drawImage(
 			_img,
