@@ -29,6 +29,17 @@ function MapEditor() {
 	this.update = function() {
 		if(game.keys[27]) { //Escape is pressed
 			game.setState(new MainMenu());
+		} else if(game.keys[82]) { //r is pressed
+			game.clearMap();
+			game.layer.placed = [];
+			game.setState(new MapEditor());
+		} else if(game.keys[80]) { //p is pressed
+			game.clearMap();
+			game.setState(new GamePlay());
+			console.log(game.layer.background.length);
+			console.log(game.layer.placed.length);
+			game.layer.background = game.layer.background.concat(game.layer.placed);
+			console.log(game.layer.background.length);
 		}
 	}
 	

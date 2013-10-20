@@ -9,6 +9,10 @@ function playerAI(){
 		_player = to;
 	};
 	this.update = function(){
+		if(game.keys[27]) { //Escape is pressed
+			game.setState(new MainMenu());
+		}
+		
 		//39 = rechts, 37 = links, up=38, down=40, space=32
 		var movement = new Vector();
 		if(game.keys[39]) { //move right

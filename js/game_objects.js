@@ -162,7 +162,6 @@ function Character(position, animation, ai) {
 	
 	this.draw = function(dx) {
 		var frame = this.getCurrentFrame();
-		dx.fillText("Dead: " + _dead, _position.getX(), _position.getY());
 		dx.drawImage(
 			_img,
 			frame.x,
