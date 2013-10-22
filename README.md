@@ -1,25 +1,4 @@
-javascript-lootandplunder
-=========================
+#A javascript game
 
-to loot and plunder stuff
+Which features the looting and plundering of ... play it and you'l see
 
-
-
-GameState interface:
-function GameState() {
-	this.initialize = function() {
-		
-	}
-	
-	this.update = function() {
-		
-	}
-	
-	this.render = function() {
-		
-	}
-	
-	this.mouseClick = function(x, y) {
-		
-	}
-}
