@@ -40,6 +40,14 @@ function Character(position, animation, ai, life) {
 		}
 		return _state[_current_frame];
 	};
+	
+	this.getHealth = function() {
+		return Math.round(_life) + "/" + Math.round(_startlife);
+	};
+	
+	this.getFramePosition = function() {
+		return {x : _position.getX(), y : _position.getY()};
+	};
 
 	this.isAlive = function() {
 		return _life > 0;

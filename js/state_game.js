@@ -119,6 +119,12 @@ function GamePlay() {
 		game.render_layer(game.layer.background);
 		game.render_layer(game.layer.loot);
 		game.render_layer(game.layer.characters);
+		for(var i = 0; i < game.layer.characters.length; i++) {
+			var character = game.layer.characters[i];
+			var character_pos = character.getFramePosition();
+			context.fillText("Health: " + character.getHealth(), character_pos.x, character_pos.y);
+			console.log("ok");
+		}
 		context.fillText("Stage: " + game.stage, 20, 30);
 		context.fillText("NPCS alive: " + (game.layer.characters.length - 1), 20, 45);
 	};
