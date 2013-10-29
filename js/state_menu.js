@@ -1,12 +1,6 @@
-/**
- * 		this.renderBlock(300, 150, "Start game");
-		this.renderBlock(300, 230, "Map editor");
- */
-
 function MainMenu() {
 	this.initialize = function() {
 		this.addMenuItem(new Rectangle(300, 150, 200, 60), "Start game", function() {
-			player.makeAlive();
 			game.setState(new GamePlay());
 		});
 		this.addMenuItem(new Rectangle(300, 230, 200, 60), "Map editor", function() {
