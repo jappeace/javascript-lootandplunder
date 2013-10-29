@@ -1,87 +1,70 @@
 /**
- * 
- */
-
-/**
  * Character class
  */
 function Character(position, animation, ai) {
 	var _currentRefresh = 0; // higher is les
 	var _position = position;
 	var _difference = new Vector();
-	
+
 	var _dead = false;
-	
+
 	var _ai = ai;
 	_ai.setBody(this);
 
 	var _jump = false;
-	
+
 	var _animation = animation;
 	var _state = _animation.right.idle;
 
 	var _direction = "right";
 	var _img = new Image();
 	_img.src = "resource/img/" + _animation.file + ".png";
-	
+
 	var _current_frame = 0;
 
 	this.getPosition = function(){
 		return _position;
 	};
-	
+
 	this.getCurrentFrame = function() {
 		if(_current_frame >= _state.length) {
 			_current_frame = 0;
 		}
 		return _state[_current_frame];
 	};
-	
-	
-	
+
 	this.isAlive = function() {
 		return !_dead;
 	};
-	
 	this.makeAlive = function() {
 		_dead = false;
 	};
-	
 	this.hit = function() {
 		_dead = true;
 	};
-	
 	this.isJumping = function() {
 		return _jump;
 	};
-	
 	this.jump = function() {
 		_jump = true;
 	};
-	
 	this.getAnimation = function() {
 		return _animation;
 	};
-	
 	this.getState = function() {
 		return _state;
 	};
-	
 	this.getSpeed = function() {
 		return _animation.speed;
 	};
-	
 	this.setState = function(state) {
 		_state = state;
 	};
-	
 	this.setDirection = function(direction){
 		_direction = direction;
 	};
-	
 	this.attack = function(){
 		this.animateAttack();
-		
 		var frame = this.getCurrentFrame();
 		for(var i = 0; i < game.layer.characters.length; i++) {
 			var current = game.layer.characters[i];
@@ -105,7 +88,6 @@ function Character(position, animation, ai) {
 			}
 		}
 	};
-	
 	this.collideWithGround = function() {
 		var frame = this.getCurrentFrame();
 		for(var i = 0; i < game.layer.background.length; i++) {
@@ -130,13 +112,11 @@ function Character(position, animation, ai) {
 		}
 		return false;
 	};
-	
 	this.update = function() {
 		if(_current_frame >= _state.length) {
 			_current_frame = 0;
 		}
 		_currentRefresh++;
-		
 		_ai.update();
 
 		if(this.collideWithGround()) {
@@ -148,7 +128,6 @@ function Character(position, animation, ai) {
 		} else {
 			_difference.add(new Vector(0, 0.35));
 		}
-		
 		if(_difference.getY() > 5) { //Stop the player from falling too hard.
 			_difference.setY(5);
 		}
@@ -157,13 +136,11 @@ function Character(position, animation, ai) {
 		if(_jump) {
 			_jump = false;
 		}
-		
 		// limit refreshing
 		if((_currentRefresh % _animation.refreshRate) === 0){
 			_current_frame++;
 		}
 	};
-	
 	this.draw = function(dx) {
 		var frame = this.getCurrentFrame();
 		dx.drawImage(
@@ -188,7 +165,6 @@ function Character(position, animation, ai) {
 	this.animateAttack = function(){
 		this.setState(_animation[_direction].attack);
 	};
-	
 	this.face = function(movementX){
 		if(movementX < 0){
 			this.setDirection("left");
@@ -196,7 +172,6 @@ function Character(position, animation, ai) {
 			this.setDirection("right");
 		}
 	};
-	
 	this.setPosition = function(position) {
 		this.position = position;
 	}
@@ -240,27 +215,27 @@ function Block(x, y, img_coords) {
 	var _img_y = img_coords.y;
 	var _width = 32;
 	var _height = 32;
-	
+
 	this.update = function() {
 		//Check for colission here or what
 	};
-	
+
 	this.getX = function() {
 		return _x;
 	};
-	
+
 	this.getY = function() {
 		return _y;
 	};
-	
+
 	this.getHeight = function(){
 		return _height;
 	};
-	
+
 	this.getWidth = function(){
 		return _width;
 	};
-	
+
     this.getImageCoords = function() {
         return {x: _img_x, y: _img_y};
     }
@@ -270,7 +245,7 @@ function Block(x, y, img_coords) {
 	this.getOffset = function(){
 		return 6.5;
 	};
-	
+
 	this.draw = function(dx) {
 		dx.drawImage(block_sprites, _img_x, _img_y, _width, _height, _x, _y, _width, _height);
 	};
