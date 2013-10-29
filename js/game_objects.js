@@ -20,9 +20,8 @@ function Character(position, animation, ai, life) {
 
 	var _current_frame = 0;
 
-	var _life;
-	var _startlife;
-	_startlife = _life = typeof life !== 'undefined' ? life : 100;
+	var _life = typeof life !== 'undefined' ? life : 100;
+	var _startlife = typeof life !== 'undefined' ? life : 100;
 
 	var _defaultDamage = 1;
 	var _damage = _defaultDamage;
