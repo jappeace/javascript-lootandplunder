@@ -1,12 +1,10 @@
 /**
  * Character class
  */
-function Character(position, animation, ai) {
+function Character(position, animation, ai, life) {
 	var _currentRefresh = 0; // higher is les
 	var _position = position;
 	var _difference = new Vector();
-
-	var _dead = false;
 
 	var _ai = ai;
 	_ai.setBody(this);
@@ -22,6 +20,17 @@ function Character(position, animation, ai) {
 
 	var _current_frame = 0;
 
+	var _life;
+	var _startlife;
+	_startlife = _life = typeof life !== 'undefined' ? life : 100;
+
+	var _defaultDamage = 1;
+	var _damage = _defaultDamage;
+
+	this.setDamage = function (damage){
+		_damage = damage;
+	};
+
 	this.getPosition = function(){
 		return _position;
 	};
@@ -34,13 +43,13 @@ function Character(position, animation, ai) {
 	};
 
 	this.isAlive = function() {
-		return !_dead;
+		return _life > 0;
 	};
 	this.makeAlive = function() {
-		_dead = false;
+		_life = _startlife;
 	};
-	this.hit = function() {
-		_dead = true;
+	this.hit = function(damage) {
+		_life -= typeof damage !== 'undefined' ? damage : _defaultDamage;
 	};
 	this.isJumping = function() {
 		return _jump;
@@ -70,20 +79,20 @@ function Character(position, animation, ai) {
 			var current = game.layer.characters[i];
 			if(current != this) {
 				if(intersect(
-						{
-							x:current.getPosition().getX(),
-							y:current.getPosition().getY(),
-							height:current.getCurrentFrame().height,
-							width:current.getCurrentFrame().width
-						},
-						{
-							x:this.getPosition().getX(),
-							y:this.getPosition().getY(),
-							height:frame.height,
-							width:frame.width
-						}
+					{
+						x:current.getPosition().getX(),
+						y:current.getPosition().getY(),
+						height:current.getCurrentFrame().height,
+						width:current.getCurrentFrame().width
+					},
+					{
+						x:this.getPosition().getX(),
+						y:this.getPosition().getY(),
+						height:frame.height,
+						width:frame.width
+					}
 					)){
-						current.hit();
+						current.hit(_damage);
 					}
 			}
 		}
