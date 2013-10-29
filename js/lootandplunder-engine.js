@@ -6,7 +6,15 @@ function intersect(one, two) {
 }
 
 function Game() {
-	var player = new Character(new Vector(40, 400), animations.player, new playerAI());
+
+	var player;
+	var init = function(){
+		// somtimes you'l win more
+		var seed = (Math.random() + 0.5 );
+		player = new Character(new Vector(40, 400), animations.player, new playerAI(),seed  * 200);
+		player.setDamage(seed * 2);
+	};
+	init();
 	var current_state = null;
 	this.keys = []; //pressed keys
 	this.stage = 1;
