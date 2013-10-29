@@ -1,4 +1,4 @@
 #A javascript game
 
-Which features the looting and plundering of ... play it and you'll see
+Which features the looting and plundering of ... play it and you'l see
 
