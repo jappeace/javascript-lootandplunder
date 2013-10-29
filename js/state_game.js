@@ -9,6 +9,12 @@ function playerAI(){
 		_player = to;
 	};
 	this.update = function(){
+		if(!_player.isAlive()) {
+			game.setState(new MainMenu());
+			alert("You are dead!");
+			return;
+		}
+		
 		if(game.keys[27]) { //Escape is pressed
 			game.setState(new MainMenu());
 		}
@@ -37,6 +43,7 @@ function playerAI(){
 		if(game.keys[32]){
 			_player.attack();
 		}
+		
 	
 	};
 }

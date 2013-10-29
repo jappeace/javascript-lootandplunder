@@ -2,6 +2,7 @@
  * 		this.renderBlock(300, 150, "Start game");
 		this.renderBlock(300, 230, "Map editor");
  */
+
 function MainMenu() {
 	
 	this.initialize = function() {
@@ -12,6 +13,15 @@ function MainMenu() {
 		
 		this.addMenuItem(new Rectangle(300, 230, 200, 60), "Map editor", function() {
 			game.setState(new MapEditor());
+		});
+		
+		this.addMenuItem(new Rectangle(300, 310, 200, 60), "Toggle music", function() {
+			var musicplayer = document.getElementById("music");
+			if(musicplayer.paused) {
+				musicplayer.play();
+			} else {
+				musicplayer.pause();
+			}
 		});
 		game.resize(800);
 		context.font = "bold 24px Arial";

@@ -100,7 +100,6 @@ $(function() {
     })();
     
 	$(document).keydown(function(key) {
-		console.log(key.keyCode);
 		game.keys[key.keyCode] = true;
 	});
 	

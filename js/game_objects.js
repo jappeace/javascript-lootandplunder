@@ -35,17 +35,21 @@ function Character(position, animation, ai) {
 			_current_frame = 0;
 		}
 		return _state[_current_frame];
-	}
+	};
 	
 	
 	
 	this.isAlive = function() {
 		return !_dead;
-	}
+	};
+	
+	this.makeAlive = function() {
+		_dead = false;
+	};
 	
 	this.hit = function() {
 		_dead = true;
-	}
+	};
 	
 	this.isJumping = function() {
 		return _jump;
@@ -192,6 +196,10 @@ function Character(position, animation, ai) {
 			this.setDirection("right");
 		}
 	};
+	
+	this.setPosition = function(position) {
+		this.position = position;
+	}
 
 	var mirrorAnimation = function (target){
 		var lft = {
